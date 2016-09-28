@@ -5,7 +5,6 @@ var io = require('socket.io').listen(server);
 
 users = [];
 connections = [];
-var clicks = 0;
 
 server.listen(3000);
 console.log("Server running...");
@@ -13,14 +12,12 @@ console.log("Server running...");
 app.use(express.static(__dirname + '/public'));
 
 io.sockets.on('connection', function(socket){
-  socket.emit('update', clicks);
   connections.push(socket);
   console.log('Connected: %s sockets connected', connections.length);
 
-  socket.on('click', function(){
-    clicks++;
-    console.log("Another Click: "+clicks);
-    socket.emit('update', clicks);
+  socket.on('message', function(message){
+    console.log("New Message");
+    io.sockets.emit('update', message);
   });
 
   //Disconect

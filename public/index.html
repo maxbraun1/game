@@ -5,20 +5,25 @@
   </head>
   <body>
   </body>
-  <div id="button">
-    <h1 id="clicks">Clicks</h1>
-    <div id="count">Total Clicks: <span id="number"></span></div>
-  </div>
+  <form id="chat">
+    <input type="text" id="text"/>
+    <input type="submit" value="Send"/>
+  </form>
+  <div id="area"></div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script src="../assets/socket.io.js"></script>
   <script>
     $(function(){
       var socket = io.connect("http://159.203.151.179:3000/");
-      $("#button").click(function(){
-        socket.emit('click');
+      $("#chat").submit(function(e){
+        e.preventDefault();
+        if($("#text").val()!=""){
+          socket.emit('message', $("#text").val());
+          $("#text").val("");
+        }
       });
-      socket.on('update', function(clicks){
-        $("#number").html(clicks);
+      socket.on('update', function(message){
+        $("#area").append(message+"</br>");
       });
     });
   </script>
