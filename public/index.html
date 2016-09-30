@@ -26,6 +26,10 @@
           delete keys[e.keyCode];
       });
 
+      socket.on('down', function(){
+        $("#sprite").animate({top: "+=5"}, 0);
+      });
+
 
       function movePlane() {
           for (var direction in keys) {
@@ -43,7 +47,6 @@
                   socket.emit('right');
               }
               if (direction == 40) {
-                  $("#sprite").animate({top: "+=5"}, 0);
                   socket.emit('down');
               }
           }
