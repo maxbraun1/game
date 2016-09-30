@@ -21,11 +21,11 @@ io.sockets.on('connection', function(socket){
     var player=data;
   });
 
-  socket.on('up', function(){
-    io.sockets.emit('move-up');
+  socket.on('up', function(data){
+    io.sockets.emit('move-up', data);
   });
-  socket.on('down', function(){
-    io.sockets.emit('move-down');
+  socket.on('down', function(data){
+    io.sockets.emit('move-down', data);
   });
   socket.on('shot', function(data){
     if(data[0] > data[1] && data[0] < (data[1]+100)){
