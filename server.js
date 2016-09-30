@@ -20,6 +20,10 @@ io.sockets.on('connection', function(socket){
     io.sockets.emit('update', message);
   });
 
+  socket.on('down', function(){
+    console.log("down");
+  });
+
   //Disconect
   socket.on('disconnect', function(data){
     connections.splice(connections.indexOf(socket), 1);

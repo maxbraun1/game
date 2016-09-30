@@ -1,27 +1,8 @@
-#button{
-  width:400px;
-  color:white;
-  background-color: green;
-  margin:0 auto;
-  text-align: center;
-  cursor:pointer;
-  position:relative;
-}
-#button:hover{
-
-}
-#clicks{
-  line-height: 100px;
-  padding-bottom: 40px;
-}
-#count{
+#sprite{
+  width:40px;
+  height:40px;
   position:absolute;
-  width:100%;
-  bottom:0;
-  background-color: darkgreen;
-  padding:10px 0;
-  color:white;
-}
-#number{
-
+  top:50;
+  left:50;
+  background-color:blue;
 }
