@@ -19,7 +19,7 @@
   <script src="../assets/socket.io.js"></script>
   <script>
     $(function(){
-      var socket = io.connect("http://159.203.151.179:3000"); //http://159.203.151.179:3000
+      var socket = io.connect("http://localhost:3000"); //http://159.203.151.179:3000
 
       var player = prompt('Type "trump" or "clinton" to pick a player');
       //player = "trump";
@@ -49,15 +49,13 @@
         $("#player-health").css('left', -10);
         $("#opp-health").css('right', -10);
       }
-      $(fill).fadeIn();
-      var power=50;
+      var power=100;
       var bullets = 0;
       window.setInterval(function(){
-        if(power<50){
-          power=power+50;
-          $(fill).animate({height: power}, 100, "linear");
+        if(power<100){
+          power=power+100;
         }
-      }, 1000);
+      }, 1500);
 
       setInterval(movePlane, 20);
       var keys = {}
@@ -71,12 +69,12 @@
       });
 
       socket.on('move-up', function(name){
-        if(parseInt($(player).css('top'))>=0){
+        if(parseInt($("#"+name).css('top'))>=0){
           $("#"+name).animate({top: "-=5"}, 0);
         }
       });
       socket.on('move-down', function(name){
-        if(parseInt($(player).css('top'))<=400){
+        if(parseInt($("#"+name).css('top'))<=400){
           $("#"+name).animate({top: "+=5"}, 0);
         }
       });
@@ -86,35 +84,58 @@
           opp_health=opp_health-100;
           console.log(data);
           $("#opp-health").animate({height: opp_health}, 100, "linear");
+          if(opp_health==0){
+            alert("YOU WIN");
+          }
         }
         else{
           health=health-100;
           console.log(data);
           $("#player-health").animate({height: health}, 100, "linear");
+          if(health==0){
+            alert("YOU LOSE");
+          }
         }
       });
 
       $(document).keyup(function(e){
-         if(e.keyCode == 32 && power>=10){
-           bullets++;
-           $("#canvas").append("<div id='bullet-"+bullets+"' class='bullet'></div>");
-           $("#bullet-"+bullets).css('top', parseInt($(player).css('top'))+25);
-           $("#bullet-"+bullets).css(lr, 100);
-           $("#bullet-"+bullets).show();
-           if(lr="right"){
-             $("#bullet-"+bullets).animate({right: "900"}, 1000, "linear", function(){
-               socket.emit('shot',[parseInt($("#bullet-"+bullets).css('top')),parseInt($(opp).css('top')),player_name]);
-               $(".bullet").remove();
-             });
-           }else{
-             $("#bullet-"+bullets).animate({left: "900"}, 1000, "linear", function(){
-               socket.emit('shot',[parseInt($("#bullet-"+bullets).css('top')),parseInt($(opp).css('top')),player_name]);
-               $(".bullet").remove();
-             });
-           }
-           power = power-50;
-           $(fill).animate({height: power}, 100, "linear");
+         if(e.keyCode == 32 && power>=100){
+           socket.emit('shoot', player_name);
          }
+      });
+      socket.on('trump-shoot', function(){
+        bullets++;
+        $("#canvas").append("<div id='tbullet-"+bullets+"' class='bullet'></div>");
+        $("#tbullet-"+bullets).css('top', parseInt($("#trump").css('top'))+50);
+        $("#tbullet-"+bullets).css('right', 150);
+        $("#tbullet-"+bullets).show();
+        $("#tbullet-"+bullets).animate({right: "900"}, 1000, "linear", function(){
+          socket.emit('shot',[parseInt($("#tbullet-"+bullets).css('top')),parseInt($(opp).css('top')),player_name]);
+          $(".bullet").remove();
+        });
+        if(player_name == "trump"){
+          power = power-100;
+          $(fill).animate({height: 0}, 100, "linear",function(){
+            $(fill).animate({height: 100}, 1000, "linear");
+          });
+        }
+      });
+      socket.on('clinton-shoot', function(){
+        bullets++;
+        $("#canvas").append("<div id='cbullet-"+bullets+"' class='bullet'></div>");
+        $("#cbullet-"+bullets).css('top', parseInt($("#clinton").css('top'))+50);
+        $("#cbullet-"+bullets).css('left', 150);
+        $("#cbullet-"+bullets).show();
+        $("#cbullet-"+bullets).animate({left: "900"}, 1000, "linear", function(){
+          socket.emit('shot',[parseInt($("#cbullet-"+bullets).css('top')),parseInt($(opp).css('top')),player_name]);
+          $(".bullet").remove();
+        });
+        if(player_name == "clinton"){
+          power = power-100;
+          $(fill).animate({height: 0}, 0, "linear",function(){
+            $(fill).animate({height: 100}, 1000, "linear");
+          });
+        }
       });
 
       function movePlane() {

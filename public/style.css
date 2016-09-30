@@ -2,11 +2,11 @@ html{
   background-image: url("/assets/backdrop.png");
 }
 #canvas{
-  margin-top:100px;
   width:1000px;
   height:500px;
   background-color:transparent;
   margin:0 auto;
+  margin-top:50px;
   position: relative;
 }
 .health{
@@ -35,24 +35,29 @@ html{
   position:absolute;
   top:0;
   background-size: 100% 100%;
-  background-color: white;
 }
 .fill{
-  display:none;
-  background-color: green;
-  width:5px;
-  height:50px;
+  width:100%;
+  height:100px;
   position:absolute;
-  right:0;
+  left:0;
   bottom:0;
+  background-size: 100px 100px;
+  background-position: bottom;
+}
+#fill-trump{
+  background-image: url("/assets/trump.png");
+}
+#fill-clinton{
+  background-image: url("/assets/clinton.png");
 }
 #trump{
   right:50px;
-  /*background-image: url("/assets/trump.png");*/
+  background-image: url("/assets/trump_fade.png");
 }
 #clinton{
   left:50px;
-  /*background-image: url("/assets/clinton.png");*/
+  background-image: url("/assets/clinton_fade.png");
 }
 .bullet{
   position:absolute;
