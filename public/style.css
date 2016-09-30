@@ -1,8 +1,62 @@
-#sprite{
-  width:40px;
-  height:40px;
+html{
+  background-image: url("/assets/backdrop.png");
+}
+#canvas{
+  margin-top:100px;
+  width:1000px;
+  height:500px;
+  background-color:transparent;
+  margin:0 auto;
+  position: relative;
+}
+.health{
+  width:10px;
+  height:500px;
+  background-color:green;
   position:absolute;
-  top:50;
-  left:50;
-  background-color:blue;
+  bottom:0;
+}
+.side{
+  width:500px;
+  height:500px;
+  position:relative;
+}
+#side-clinton{
+  background-color:transparent;
+  float:left;
+}
+#side-trump{
+  background-color:transparent;
+  float:right;
+}
+.sprite{
+  width:100px;
+  height:100px;
+  position:absolute;
+  top:0;
+  background-size: 100% 100%;
+}
+.fill{
+  display:none;
+  background-color: green;
+  width:5px;
+  height:50px;
+  position:absolute;
+  right:0;
+  bottom:0;
+}
+#trump{
+  right:50px;
+  background-image: url("/assets/trump.png");
+}
+#clinton{
+  left:50px;
+  background-image: url("/assets/clinton.png");
+}
+.bullet{
+  position:absolute;
+  background-color:white;
+  width:5px;
+  height:5px;
+  display:none;
 }

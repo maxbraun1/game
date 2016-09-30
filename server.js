@@ -5,6 +5,8 @@ var io = require('socket.io').listen(server);
 
 users = [];
 connections = [];
+trump_health=500;
+clinton_health=500;
 
 server.listen(3000);
 console.log("Server running...");
@@ -15,22 +17,26 @@ io.sockets.on('connection', function(socket){
   connections.push(socket);
   console.log('Connected: %s sockets connected', connections.length);
 
-  socket.on('message', function(message){
-    console.log("New Message");
-    io.sockets.emit('update', message);
+  socket.on('player', function(data){
+    var player=data;
   });
 
-  socket.on('left', function(){
-    io.sockets.emit('move-left');
-  });
   socket.on('up', function(){
     io.sockets.emit('move-up');
   });
-  socket.on('right', function(){
-    io.sockets.emit('move-right');
-  });
   socket.on('down', function(){
     io.sockets.emit('move-down');
+  });
+  socket.on('shot', function(data){
+    if(data[0] > data[1] && data[0] < (data[1]+100)){
+      if(data[2]=="trump"){
+        trump_health=trump_health-100;
+        io.sockets.emit('hit', data[2]);
+      }else{
+        clinton_health=clinton_health-100;
+        io.sockets.emit('hit', data[2]);
+      }
+    }
   });
 
   //Disconect

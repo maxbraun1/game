@@ -5,15 +5,59 @@
   </head>
   <body>
   </body>
-  <form id="chat">
-    <input
-  </form>
-  <div id="sprite">.</div>
+  <div id="canvas">
+    <div class="health" id="player-health"></div>
+    <div class="health" id="opp-health"></div>
+    <div class="side" id="side-clinton">
+      <div class="sprite" id="clinton"><div id="fill-clinton" class="fill"></div></div>
+    </div>
+    <div class="side" id="side-trump">
+      <div class="sprite" id="trump"><div id="fill-trump" class="fill"></div></div>
+    </div>
+  </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script src="../assets/socket.io.js"></script>
   <script>
     $(function(){
-      var socket = io.connect("http://159.203.151.179:3000/"); //
+      var socket = io.connect("http://159.203.151.179:3000"); //
+
+      var player = prompt('Type "trump" or "clinton" to pick a player');
+      //player = "trump";
+      health = 500;
+      opp_health = 500;
+      if(player=="trump"){
+        socket.emit('player', "trump");
+        fill="#fill-trump";
+        side="#side-trump";
+        opp_side="#side-clinton";
+        lr="right";
+        player="#trump";
+        player_name="trump";
+        opp="#clinton";
+        $("#player-health").css('right', -10);
+        $("#opp-health").css('left', -10);
+      }
+      else{
+        socket.emit('player', "clinton");
+        side="#side-clinton";
+        fill="#fill-clinton";
+        opp_side="#side-trump";
+        lr="left";
+        player="#clinton";
+        player_name="clinton";
+        opp="#trump";
+        $("#player-health").css('left', -10);
+        $("#opp-health").css('right', -10);
+      }
+      $(fill).fadeIn();
+      var power=50;
+      var bullets = 0;
+      window.setInterval(function(){
+        if(power<50){
+          power=power+50;
+          $(fill).animate({height: power}, 100, "linear");
+        }
+      }, 1000);
 
       setInterval(movePlane, 20);
       var keys = {}
@@ -26,19 +70,52 @@
           delete keys[e.keyCode];
       });
 
-      socket.on('move-left', function(){
-        $("#sprite").animate({left: "-=5"}, 0);
-      });
-      socket.on('move-up', function(){
-        $("#sprite").animate({top: "-=5"}, 0);
-      });
-      socket.on('move-right', function(){
-        $("#sprite").animate({left: "+=5"}, 0);
+      socket.on('move-up', function(id){
+        if(parseInt($(player).css('top'))>=0){
+          $(player).animate({top: "-=5"}, 0);
+        }
       });
       socket.on('move-down', function(){
-        $("#sprite").animate({top: "+=5"}, 0);
+        if(parseInt($(player).css('top'))<=400){
+          $(player).animate({top: "+=5"}, 0);
+        }
       });
 
+      socket.on('hit', function(data){
+        if(data==player_name){
+          opp_health=opp_health-100;
+          console.log(data);
+          $("#opp-health").animate({height: opp_health}, 100, "linear");
+        }
+        else{
+          health=health-100;
+          console.log(data);
+          $("#player-health").animate({height: health}, 100, "linear");
+        }
+      });
+
+      $(document).keyup(function(e){
+         if(e.keyCode == 32 && power>=10){
+           bullets++;
+           $("#canvas").append("<div id='bullet-"+bullets+"' class='bullet'></div>");
+           $("#bullet-"+bullets).css('top', parseInt($(player).css('top'))+25);
+           $("#bullet-"+bullets).css(lr, 100);
+           $("#bullet-"+bullets).show();
+           if(lr="right"){
+             $("#bullet-"+bullets).animate({right: "900"}, 1000, "linear", function(){
+               socket.emit('shot',[parseInt($("#bullet-"+bullets).css('top')),parseInt($(opp).css('top')),player_name]);
+               $(".bullet").remove();
+             });
+           }else{
+             $("#bullet-"+bullets).animate({left: "900"}, 1000, "linear", function(){
+               socket.emit('shot',[parseInt($("#bullet-"+bullets).css('top')),parseInt($(opp).css('top')),player_name]);
+               $(".bullet").remove();
+             });
+           }
+           power = power-50;
+           $(fill).animate({height: power}, 100, "linear");
+         }
+      });
 
       function movePlane() {
           for (var direction in keys) {
