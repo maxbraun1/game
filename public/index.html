@@ -19,7 +19,7 @@
   <script src="../assets/socket.io.js"></script>
   <script>
     $(function(){
-      var socket = io.connect("http://localhost:3000"); //http://159.203.151.179:3000
+      var socket = io.connect("http://159.203.151.179:3000"); //http://159.203.151.179:3000
 
       var player = prompt('Type "trump" or "clinton" to pick a player');
       //player = "trump";
@@ -72,12 +72,12 @@
 
       socket.on('move-up', function(name){
         if(parseInt($(player).css('top'))>=0){
-          $("#"name).animate({top: "-=5"}, 0);
+          $("#"+name).animate({top: "-=5"}, 0);
         }
       });
       socket.on('move-down', function(name){
         if(parseInt($(player).css('top'))<=400){
-          $("#"name).animate({top: "+=5"}, 0);
+          $("#"+name).animate({top: "+=5"}, 0);
         }
       });
 
