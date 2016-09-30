@@ -26,6 +26,15 @@
           delete keys[e.keyCode];
       });
 
+      socket.on('move-left', function(){
+        $("#sprite").animate({left: "-=5"}, 0);
+      });
+      socket.on('move-up', function(){
+        $("#sprite").animate({top: "-=5"}, 0);
+      });
+      socket.on('move-right', function(){
+        $("#sprite").animate({left: "+=5"}, 0);
+      });
       socket.on('move-down', function(){
         $("#sprite").animate({top: "+=5"}, 0);
       });
@@ -35,15 +44,12 @@
           for (var direction in keys) {
               if (!keys.hasOwnProperty(direction)) continue;
               if (direction == 37) {
-                  $("#sprite").animate({left: "-=5"}, 0);
                   socket.emit('left');
               }
               if (direction == 38) {
-                  $("#sprite").animate({top: "-=5"}, 0);
                   socket.emit('up');
               }
               if (direction == 39) {
-                  $("#sprite").animate({left: "+=5"}, 0);
                   socket.emit('right');
               }
               if (direction == 40) {

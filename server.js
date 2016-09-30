@@ -20,6 +20,15 @@ io.sockets.on('connection', function(socket){
     io.sockets.emit('update', message);
   });
 
+  socket.on('left', function(){
+    io.sockets.emit('move-left');
+  });
+  socket.on('up', function(){
+    io.sockets.emit('move-up');
+  });
+  socket.on('right', function(){
+    io.sockets.emit('move-right');
+  });
   socket.on('down', function(){
     io.sockets.emit('move-down');
   });
