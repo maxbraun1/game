@@ -21,7 +21,7 @@ io.sockets.on('connection', function(socket){
   });
 
   socket.on('down', function(){
-    console.log("down");
+    io.sockets.emit('move-down');
   });
 
   //Disconect

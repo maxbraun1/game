@@ -26,7 +26,7 @@
           delete keys[e.keyCode];
       });
 
-      socket.on('down', function(){
+      socket.on('move-down', function(){
         $("#sprite").animate({top: "+=5"}, 0);
       });
 
