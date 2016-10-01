@@ -5,6 +5,10 @@
   </head>
   <body>
   </body>
+  <div id="menu">
+    <h1 id="title-menu"><span style="color:blue">Trump</span> vs. <span style="color:red">Clinton</span></h1>
+    <h3 id="show-id">Room ID: <span id="menu-room-id"></span></h3>
+  </div>
   <div id="canvas">
     <div class="health" id="player-health"></div>
     <div class="health" id="opp-health"></div>
@@ -15,14 +19,38 @@
       <div class="sprite" id="trump"><div id="fill-trump" class="fill"></div></div>
     </div>
   </div>
+  <div id="opener">
+    <div id="container">
+      <h1 id="title"><span style="color:blue">Trump</span> vs. <span style="color:red">Clinton</span></h1>
+      <h1 id="choose">Choose a side</h1>
+      <div class="choice" id="choose-trump"><img src="/assets/trump.png"></div>
+      <div class="choice" id="choose-clinton"><img src="/assets/clinton.png"></div>
+      <div class="option" id="create">Create a Game</div>
+      <div class="option" id="join">Join a Game</div>
+    </div>
+  </div>
+  <div id="create-game">
+    <form id="create-game-form">
+      <h1>Create a game as: </br><span id="as-name"></span></h1>
+      <input type="text" id="room-id" placeholder="Room ID (ex. 1234)">
+      <input type="submit" value="Create Game">
+      <button id="cancel">Cancel</button>
+    </form>
+  </div>
+  <div id="join-game">
+    <form id="join-game-form">
+      <h1>Join a game</h1>
+      <input type="text" id="join-id" placeholder="Room ID (ex. 1234)">
+      <input type="submit" value="Join Game">
+      <button id="cancel">Cancel</button>
+    </form>
+  </div>
+  <div class="darken"></div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script src="../assets/socket.io.js"></script>
+  <script src="/assets/script.js"></script>
   <script>
-    $(function(){
-      var socket = io.connect("http://159.203.151.179:3000"); //http://159.203.151.179:3000
-
-      var player = prompt('Type "trump" or "clinton" to pick a player');
-      //player = "trump";
+    function initialize(){
       health = 500;
       opp_health = 500;
       if(player=="trump"){
@@ -70,12 +98,12 @@
 
       socket.on('move-up', function(name){
         if(parseInt($("#"+name).css('top'))>=0){
-          $("#"+name).animate({top: "-=5"}, 0);
+          $("#"+name).animate({top: "-=10"}, 0);
         }
       });
       socket.on('move-down', function(name){
         if(parseInt($("#"+name).css('top'))<=400){
-          $("#"+name).animate({top: "+=5"}, 0);
+          $("#"+name).animate({top: "+=10"}, 0);
         }
       });
 
@@ -149,6 +177,6 @@
               }
           }
       }
-    });
+    }
   </script>
 </html>

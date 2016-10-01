@@ -1,5 +1,32 @@
+@import 'https://fonts.googleapis.com/css?family=Lobster|Open+Sans:300,400';
 html{
   background-image: url("/assets/backdrop.png");
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 100;
+  padding:0;
+  margin:0;
+}
+*{
+  padding:0;
+  margin:0;
+}
+#menu{
+  width:100%;
+  height:100px;
+  background-color: #262626;
+}
+#show-id{
+  float:right;
+  line-height: 100px;
+  color:white;
+  padding-right:50px;
+}
+#title-menu{
+  padding-left:50px;
+  color:white;
+  font-size: 40px;
+  float:left;
+  line-height: 100px;
 }
 #canvas{
   width:1000px;
@@ -65,4 +92,120 @@ html{
   width:5px;
   height:5px;
   display:none;
+}
+
+/* OPENER */
+#opener{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  width:100%;
+  height:100%;
+  background-color: #262626;
+  color:white;
+  text-align:center;
+}
+#container{
+  width:800px;
+  margin:0 auto;
+}
+#title{
+  font-size:80px;
+  font-weight: 600;
+  font-family: 'Lobster', cursive;
+}
+#choose{
+  font-family: 'Open Sans', sans-serif;
+}
+.choice{
+  width:40%;
+  padding:2.5%;
+  margin:2.5%;
+  height:200px;
+  background-color: #404040;
+  cursor: pointer;
+}
+.choice:hover{
+  background-color: #006bb3;
+  transition: background-color 500ms linear;
+}
+#choose-trump{
+  float:left;
+}
+#choose-trump img{
+  height:200px;
+}
+#choose-clinton{
+  float:left;
+}
+#choose-clinton img{
+  height:200px;
+}
+.option{
+  width:42%;
+  padding:2%;
+  margin:2%;
+  background-color: #404040;
+  font-size:40px;
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+  cursor: pointer;
+}
+.option:hover{
+  background-color: #006bb3;
+  transition: background-color 500ms linear;
+}
+#create{
+  float:left;
+}
+#join{
+  float:right;
+}
+#create-game, #join-game{
+  display: none;
+  text-align: center;
+  color:white;
+  background-color:#262626;
+  margin:0 auto;
+  left:0;
+  right:0;
+  position: absolute;
+  top:50px;
+  width:300px;
+  z-index:101;
+  padding:30px 50px;
+  font-weight: 100;
+}
+#as-name{
+  text-transform:capitalize;
+  font-family: 'Lobster', cursive;
+}
+#create-game input, #create-game button,#join-game input, #join-game button{
+  font-size: 16px;
+  padding:4%;
+  width:92%;
+  margin:10px 0;
+  background-color: white;
+  border:none;
+  border-radius: none;
+}
+#create-game input[type="submit"]:hover, #create-game button:hover,#join-game input[type="submit"]:hover, #join-game button:hover{
+  cursor: pointer;
+  background-color: #006bb3;
+  color:white;
+  transition: background-color 500ms linear;
+}
+.darken{
+  display: none;
+  width:100%;
+  height:100%;
+  background-color: rgba(0,0,0,0.8);
+  position: absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index:100;
 }

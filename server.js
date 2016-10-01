@@ -13,33 +13,44 @@ console.log("Server running...");
 
 app.use(express.static(__dirname + '/public'));
 
+/* io starts */
+
 io.sockets.on('connection', function(socket){
   connections.push(socket);
   console.log('Connected: %s sockets connected', connections.length);
 
+  socket.on('new-room', function(room){
+    socket.join(room);
+    socket.room = room;
+  });
+  socket.on('join-room', function(room){
+    socket.join(room);
+    socket.room = room;
+  });
   socket.on('up', function(data){
-    io.sockets.emit('move-up', data);
+    console.log(socket.room);
+    io.to(socket.room).emit('move-up', data);
   });
   socket.on('down', function(data){
-    io.sockets.emit('move-down', data);
+    io.to(socket.room).emit('move-down', data);
   });
   socket.on('shoot', function(player){
     if(player=="trump"){
-      io.sockets.emit('trump-shoot');
+      io.to(socket.room).emit('trump-shoot');
     }
     else{
-      io.sockets.emit('clinton-shoot');
+      io.to(socket.room).emit('clinton-shoot');
     }
   });
   socket.on('shot', function(data){
-    io.sockets.emit('shot',data[2]);
+    io.to(socket.room).emit('shot',data[2]);
     if(data[0] > data[1] && data[0] < (data[1]+100)){
       if(data[2]=="trump"){
         trump_health=trump_health-100;
-        io.sockets.emit('hit', data[2]);
+        io.to(socket.room).emit('hit', data[2]);
       }else{
         clinton_health=clinton_health-100;
-        io.sockets.emit('hit', data[2]);
+        io.to(socket.room).emit('hit', data[2]);
       }
     }
   });
