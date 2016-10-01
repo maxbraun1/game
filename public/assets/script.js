@@ -1,4 +1,4 @@
-var socket = io.connect("http://localhost:3000"); //http://159.203.151.179:3000/
+var socket = io.connect("http://159.203.151.179:3000"); //http://159.203.151.179:3000/
 
 var player;
 var room;
