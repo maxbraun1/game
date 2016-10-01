@@ -53,7 +53,6 @@ io.sockets.on('connection', function(socket){
     }
   });
   socket.on('shot', function(data){
-    io.to(socket.room).emit('shot',data[2]);
     if(data[0] > data[1] && data[0] < (data[1]+100)){
       if(data[2]=="trump"){
         trump_health=trump_health-100;

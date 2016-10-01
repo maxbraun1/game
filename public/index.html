@@ -173,7 +173,9 @@
         $("#tbullet-"+bullets).css('right', 150);
         $("#tbullet-"+bullets).show();
         $("#tbullet-"+bullets).animate({right: "900"}, 1000, "linear", function(){
-          socket.emit('shot',[parseInt($("#tbullet-"+bullets).css('top')),parseInt($(opp).css('top')),player_name]);
+          if(player_name=="trump"){
+            socket.emit('shot',[parseInt($("#tbullet-"+bullets).css('top')),parseInt($(opp).css('top')),player_name]);
+          }
           $(".bullet").remove();
         });
       });
@@ -192,7 +194,9 @@
         $("#cbullet-"+bullets).css('left', 150);
         $("#cbullet-"+bullets).show();
         $("#cbullet-"+bullets).animate({left: "900"}, 1000, "linear", function(){
-          socket.emit('shot',[parseInt($("#cbullet-"+bullets).css('top')),parseInt($(opp).css('top')),player_name]);
+          if(player_name="hillary"){
+            socket.emit('shot',[parseInt($("#cbullet-"+bullets).css('top')),parseInt($(opp).css('top')),player_name]);
+          }
           $(".bullet").remove();
         });
       });
