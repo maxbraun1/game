@@ -1,22 +1,32 @@
 <html>
   <head>
-    <title>Test</title>
+    <title>Trump VS Clinton</title>
+    <link href="/assets/pnotify.custom.min.css" media="all" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="/style.css">
   </head>
   <body>
   </body>
   <div id="menu">
     <h1 id="title-menu"><span style="color:blue">Trump</span> vs. <span style="color:red">Clinton</span></h1>
-    <h3 id="show-id">Room ID: <span id="menu-room-id"></span></h3>
+    <h3 id="show-id">Room ID:   <span style="color:red" id="menu-room-id"></span></h3>
   </div>
   <div id="canvas">
-    <div class="health" id="player-health"></div>
-    <div class="health" id="opp-health"></div>
     <div class="side" id="side-clinton">
       <div class="sprite" id="clinton"><div id="fill-clinton" class="fill"></div></div>
     </div>
     <div class="side" id="side-trump">
       <div class="sprite" id="trump"><div id="fill-trump" class="fill"></div></div>
+    </div>
+  </div>
+  <div id="info">
+    <div id="container">
+      <div id="health-bars">
+        <p>Your Health</p>
+        <div class="health" id="player-health"></div>
+        <p>Opponent Health</p>
+        <div class="health" id="opp-health"></div>
+      </div>
+      <div id="power-up"></div>
     </div>
   </div>
   <div id="opener">
@@ -25,32 +35,46 @@
       <h1 id="choose">Choose a side</h1>
       <div class="choice" id="choose-trump"><img src="/assets/trump.png"></div>
       <div class="choice" id="choose-clinton"><img src="/assets/clinton.png"></div>
-      <div class="option" id="create">Create a Game</div>
+      <div class="option disabled" id="create">Create a Game</div>
       <div class="option" id="join">Join a Game</div>
     </div>
   </div>
   <div id="create-game">
     <form id="create-game-form">
       <h1>Create a game as: </br><span id="as-name"></span></h1>
+      <input type="text" id="create-username" placeholder="Your Name"/>
       <input type="text" id="room-id" placeholder="Room ID (ex. 1234)">
       <input type="submit" value="Create Game">
-      <button id="cancel">Cancel</button>
+      <div id="create-cancel">Cancel</div>
     </form>
   </div>
   <div id="join-game">
     <form id="join-game-form">
       <h1>Join a game</h1>
+      <input type="text" id="join-username" placeholder="Your Name"/>
       <input type="text" id="join-id" placeholder="Room ID (ex. 1234)">
       <input type="submit" value="Join Game">
-      <button id="cancel">Cancel</button>
+      <div id="join-cancel">Cancel</div>
     </form>
   </div>
   <div class="darken"></div>
+  <div class="alert" id="win">
+    <h1><span id="player"></span> WINS!!</h1>
+    <h3><span id="player"></span>You Won!!</h3>
+    <button class="ok">Home</button>
+  </div>
+  <div class="alert" id="lose">
+    <h1><span id="player"></span> LOSES</h1>
+    <h3>You Lost...</h3>
+    <button class="ok">Home</button>
+  </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script type="text/javascript" src="/assets/pnotify.custom.min.js"></script>
   <script src="../assets/socket.io.js"></script>
   <script src="/assets/script.js"></script>
   <script>
-    function initialize(){
+    function initialize(player){
+      console.log("You are "+player);
       health = 500;
       opp_health = 500;
       if(player=="trump"){
@@ -79,11 +103,6 @@
       }
       var power=100;
       var bullets = 0;
-      window.setInterval(function(){
-        if(power<100){
-          power=power+100;
-        }
-      }, 1500);
 
       setInterval(movePlane, 20);
       var keys = {}
@@ -97,12 +116,12 @@
       });
 
       socket.on('move-up', function(name){
-        if(parseInt($("#"+name).css('top'))>=0){
+        if(parseInt($("#"+name).css('top'))>=10){
           $("#"+name).animate({top: "-=10"}, 0);
         }
       });
       socket.on('move-down', function(name){
-        if(parseInt($("#"+name).css('top'))<=400){
+        if(parseInt($("#"+name).css('top'))<=390){
           $("#"+name).animate({top: "+=10"}, 0);
         }
       });
@@ -111,29 +130,45 @@
         if(data==player_name){
           opp_health=opp_health-100;
           console.log(data);
-          $("#opp-health").animate({height: opp_health}, 100, "linear");
-          if(opp_health==0){
-            alert("YOU WIN");
-          }
+          $("#opp-health").animate({width: opp_health}, 100, "linear",function(){
+            if(opp_health==0){
+              $("#player").html(player_name);
+              $(".darken").fadeIn();
+              $("#win").fadeIn();
+              return false;
+            }
+          });
         }
         else{
           health=health-100;
           console.log(data);
-          $("#player-health").animate({height: health}, 100, "linear");
-          if(health==0){
-            alert("YOU LOSE");
-          }
+          $("#player-health").animate({width: health}, 100, "linear",function(){
+            if(health==0){
+              $("#player").html(player_name);
+              $(".darken").fadeIn();
+              $("#lose").fadeIn();
+              return false;
+            }
+          });
         }
       });
 
       $(document).keyup(function(e){
-         if(e.keyCode == 32 && power>=100){
+         if(e.keyCode == 32 && power==100){
            socket.emit('shoot', player_name);
          }
       });
       socket.on('trump-shoot', function(){
+        if(player_name == "trump"){
+          power = 0;
+          $(fill).animate({height: 0}, 0, "linear",function(){
+            $(fill).animate({height: 100}, 1000, "linear",function(){
+              power=100;
+            });
+          });
+        }
         bullets++;
-        $("#canvas").append("<div id='tbullet-"+bullets+"' class='bullet'></div>");
+        $("#canvas").append("<div id='tbullet-"+bullets+"' class='trump-bullet bullet'>WRONG</div>");
         $("#tbullet-"+bullets).css('top', parseInt($("#trump").css('top'))+50);
         $("#tbullet-"+bullets).css('right', 150);
         $("#tbullet-"+bullets).show();
@@ -141,16 +176,18 @@
           socket.emit('shot',[parseInt($("#tbullet-"+bullets).css('top')),parseInt($(opp).css('top')),player_name]);
           $(".bullet").remove();
         });
-        if(player_name == "trump"){
-          power = power-100;
-          $(fill).animate({height: 0}, 100, "linear",function(){
-            $(fill).animate({height: 100}, 1000, "linear");
-          });
-        }
       });
       socket.on('clinton-shoot', function(){
+        if(player_name == "clinton"){
+          power = 0;
+          $(fill).animate({height: 0}, 0, "linear",function(){
+            $(fill).animate({height: 100}, 1000, "linear",function(){
+              power=100;
+            });
+          });
+        }
         bullets++;
-        $("#canvas").append("<div id='cbullet-"+bullets+"' class='bullet'></div>");
+        $("#canvas").append("<div id='cbullet-"+bullets+"' class='clinton-bullet bullet'></div>");
         $("#cbullet-"+bullets).css('top', parseInt($("#clinton").css('top'))+50);
         $("#cbullet-"+bullets).css('left', 150);
         $("#cbullet-"+bullets).show();
@@ -158,12 +195,6 @@
           socket.emit('shot',[parseInt($("#cbullet-"+bullets).css('top')),parseInt($(opp).css('top')),player_name]);
           $(".bullet").remove();
         });
-        if(player_name == "clinton"){
-          power = power-100;
-          $(fill).animate({height: 0}, 0, "linear",function(){
-            $(fill).animate({height: 100}, 1000, "linear");
-          });
-        }
       });
 
       function movePlane() {

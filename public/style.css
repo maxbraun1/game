@@ -1,10 +1,12 @@
 @import 'https://fonts.googleapis.com/css?family=Lobster|Open+Sans:300,400';
 html{
-  background-image: url("/assets/backdrop.png");
+  /*background-image: url("/assets/backdrop.png");*/
+  background-color: #404040;
   font-family: 'Open Sans', sans-serif;
   font-weight: 100;
   padding:0;
   margin:0;
+  color:white;
 }
 *{
   padding:0;
@@ -12,12 +14,12 @@ html{
 }
 #menu{
   width:100%;
-  height:100px;
+  height:60px;
   background-color: #262626;
 }
 #show-id{
   float:right;
-  line-height: 100px;
+  line-height: 60px;
   color:white;
   padding-right:50px;
 }
@@ -26,22 +28,39 @@ html{
   color:white;
   font-size: 40px;
   float:left;
-  line-height: 100px;
+  line-height: 60px;
+  font-family: 'Lobster', cursive;
 }
 #canvas{
   width:1000px;
   height:500px;
   background-color:transparent;
   margin:0 auto;
-  margin-top:50px;
+  margin-top:20px;
   position: relative;
 }
+#info{
+  width:100%;
+  background-color: #262626;
+}
+#info #container{
+  padding:20px 0;
+  width:1000px;
+  margin:0 auto;
+  margin-top:30px;
+}
+#info p{
+  padding:3px;
+}
 .health{
-  width:10px;
-  height:500px;
-  background-color:green;
-  position:absolute;
-  bottom:0;
+  height:10px;
+  width:500px;
+}
+#player-health{
+  background-color: #006bb3;
+}
+#opp-health{
+  background-color: red;
 }
 .side{
   width:500px;
@@ -86,11 +105,18 @@ html{
   left:50px;
   background-image: url("/assets/clinton_fade.png");
 }
-.bullet{
+.trump-bullet{
+  position:absolute;
+  color:white;
+  width:15px;
+  height:7px;
+  display:none;
+}
+.clinton-bullet{
   position:absolute;
   background-color:white;
-  width:5px;
-  height:5px;
+  width:15px;
+  height:7px;
   display:none;
 }
 
@@ -115,6 +141,7 @@ html{
   font-size:80px;
   font-weight: 600;
   font-family: 'Lobster', cursive;
+  padding:30px 0;
 }
 #choose{
   font-family: 'Open Sans', sans-serif;
@@ -181,6 +208,9 @@ html{
 #as-name{
   text-transform:capitalize;
   font-family: 'Lobster', cursive;
+  font-size: 50px;
+  display:block;
+  padding-bottom:30px;
 }
 #create-game input, #create-game button,#join-game input, #join-game button{
   font-size: 16px;
@@ -208,4 +238,50 @@ html{
   left:0;
   right:0;
   z-index:100;
+}
+.disabled{
+  pointer-events: none;
+  opacity: 0.3;
+}
+.alert{
+  display:none;
+  text-align: center;
+  position: absolute;
+  top:100px;
+  left:0;
+  right:0;
+  margin:0 auto;
+  width:400px;
+  height:300px;
+  background-color: #262626;
+  padding:50px;
+  z-index: 101;
+}
+#player{
+  text-transform: uppercase;
+}
+.alert h1{
+  font-family: 'Lobster', cursive;
+  font-size: 50px;
+  padding-bottom:50px;
+}
+#create-cancel, #join-cancel{
+  padding-top:20px;
+  cursor: pointer;
+}
+#create-cancel:hover, #join-cancel:hover{
+  color: #006bb3;
+}
+.ok{
+  background-color: #006bb3;
+  color:white;
+  padding:30px;
+  font-size:30px;
+  border:none;
+  width:80%;
+  margin-top: 30px;
+  cursor: pointer;
+}
+.ok:hover{
+  background-color: #004d80;
 }

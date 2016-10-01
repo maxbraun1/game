@@ -19,16 +19,26 @@ io.sockets.on('connection', function(socket){
   connections.push(socket);
   console.log('Connected: %s sockets connected', connections.length);
 
-  socket.on('new-room', function(room){
+  socket.on('new-room', function(room, player, username){
     socket.join(room);
     socket.room = room;
+    socket.player = player;
+    socket.username = username;
+    console.log("User created room "+room+" as player "+player);
   });
-  socket.on('join-room', function(room){
+  socket.on('join-room', function(room,username){
     socket.join(room);
     socket.room = room;
+    socket.username = username;
+    io.to(socket.room).emit('player-joined', room,username);
+  });
+  socket.on('current-player',function(player_name){
+    io.to(socket.room).emit('existing-player',player_name);
+  });
+  socket.on('new-player-info',function(player,username,room){
+    io.to(socket.room).emit('new-info', player,username,room);
   });
   socket.on('up', function(data){
-    console.log(socket.room);
     io.to(socket.room).emit('move-up', data);
   });
   socket.on('down', function(data){
