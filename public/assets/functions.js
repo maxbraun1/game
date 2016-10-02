@@ -8,6 +8,17 @@ function trump_shoot(player){
     $("#tbullet").remove();
   });
 }
+function trump_shoot_email(player){
+  $("#tbullet").remove();
+  $("#canvas").append("<div id='tbullet' class='trump-bullet email bullet'></div>");
+  $("#tbullet").css('top', parseInt($("#trump").css('top'))+20);
+  $("#tbullet").animate({right: "500"}, 500, "linear", function(){
+    $(".email").css("background-image","url('/assets/x.png')");
+    setTimeout(function() {
+      $("#tbullet").remove();
+    }, 500);
+  });
+}
 
 function clinton_shoot(player){
   $("#canvas").append("<div id='cbullet' class='clinton-bullet bullet'>SEXIST</div>");
@@ -38,22 +49,21 @@ function clinton_shoot_wall(player){
   }
 }
 
-function initialize(player){
+function initialize(player_name){
   init = true;
+  player = player_name;
   game_log("You are "+player);
   health = 500;
   opp_health = 500;
   var power = 100;
   //sets variables
   if(player=="trump"){
-    player="trump";
     sprite="#trump";
     mana_div="#mana_div-trump";
     opp_sprite="#clinton";
     $("#trump-powerup").fadeIn();
   }
   else if(player=="clinton"){
-    player="clinton";
     sprite="#clinton";
     mana_div="#mana_div-clinton";
     opp_sprite="#trump";
@@ -98,7 +108,11 @@ function initialize(player){
   });
   socket.on('trump-shoot', function(){
     if(power==100){
-      trump_shoot(player);
+      if(email==true){
+        trump_shoot_email(player);
+      }else{
+        trump_shoot(player);
+      }
       if(player == "trump"){
         power = 0;
         $(mana_div).css("height",0);
@@ -153,14 +167,10 @@ function game_log(message){
 }
 
 $(document).keypress(function(e) {
-  if(player==null){
-    player = getPlayer();
-  }
   if(e.which == 107) {
     if(player=="trump"){
       socket.emit('powerup-trump');
-    }
-    else if(player=="clinton"){
+    }else if(player=="clinton"){
       socket.emit('powerup-clinton');
     }
   }
@@ -169,19 +179,34 @@ $(document).keypress(function(e) {
 socket.on('wall',function(){
   wall();
 });
+socket.on('email',function(){
+  email();
+});
 
 function wall(){
   wall=true;
   $("#wall").fadeIn();
-  if(player="trump"){
+  if(player=="trump"){
     $("#trump-warmup").css("width",0);
     $("#trump-warmup").css("background-color","rgba(255,0,0,0.4)");
     $("#trump-warmup").animate({width: "100%"}, 15000, "linear");
   }
+  game_log("Trump uses BUILD A WALL");
   setTimeout(function() {
     wall=false;
     $("#wall").fadeOut();
-    $("#log").fadeOut();
+  }, 15000);
+}
+function email(){
+  email=true;
+  if(player=="clinton"){
+    $("#clinton-warmup").css("width",0);
+    $("#clinton-warmup").css("background-color","rgba(255,0,0,0.4)");
+    $("#clinton-warmup").animate({width: "100%"}, 15000, "linear");
+  }
+  game_log("Clinton uses ACCEDENTAL DELETION");
+  setTimeout(function() {
+    email=false;
   }, 15000);
 }
 function getPlayer(){

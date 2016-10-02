@@ -140,6 +140,12 @@ html{
   height:7px;
   left:150px;
 }
+.email{
+  width:30px !important;
+  height:25px !important;
+  background-image: url("/assets/email.png");
+  background-size: 100% 100%;
+}
 
 /* OPENER */
 #opener{
