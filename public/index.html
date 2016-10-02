@@ -12,10 +12,10 @@
   </div>
   <div id="canvas">
     <div class="side" id="side-clinton">
-      <div class="sprite" id="clinton"><div id="fill-clinton" class="fill"></div></div>
+      <div class="sprite" id="clinton"><div id="mana_div-clinton" class="mana_div"></div></div>
     </div>
     <div class="side" id="side-trump">
-      <div class="sprite" id="trump"><div id="fill-trump" class="fill"></div></div>
+      <div class="sprite" id="trump"><div id="mana_div-trump" class="mana_div"></div></div>
     </div>
   </div>
   <div id="info">
@@ -72,48 +72,47 @@
   <script type="text/javascript" src="/assets/pnotify.custom.min.js"></script>
   <script src="../assets/socket.io.js"></script>
   <script src="/assets/script.js"></script>
+  <script src="/assets/functions.js"></script>
   <script>
     function initialize(player){
+      init = true;
       console.log("You are "+player);
       health = 500;
       opp_health = 500;
+      var power = 100;
+      //sets variables
       if(player=="trump"){
-        socket.emit('player', "trump");
-        fill="#fill-trump";
-        side="#side-trump";
-        opp_side="#side-clinton";
-        lr="right";
-        player="#trump";
-        player_name="trump";
-        opp="#clinton";
-        $("#player-health").css('right', -10);
-        $("#opp-health").css('left', -10);
+        player="trump";
+        sprite="#trump";
+        mana_div="#mana_div-trump";
+        opp_sprite="#clinton";
       }
-      else{
-        socket.emit('player', "clinton");
-        side="#side-clinton";
-        fill="#fill-clinton";
-        opp_side="#side-trump";
-        lr="left";
-        player="#clinton";
-        player_name="clinton";
-        opp="#trump";
-        $("#player-health").css('left', -10);
-        $("#opp-health").css('right', -10);
+      else if(player=="clinton"){
+        player="clinton";
+        sprite="#clinton";
+        mana_div="#mana_div-clinton";
+        opp_sprite="#trump";
       }
-      var power=100;
-      var bullets = 0;
 
       setInterval(movePlane, 20);
       var keys = {}
-
       $(document).keydown(function(e) {
           keys[e.keyCode] = true;
       });
-
       $(document).keyup(function(e) {
           delete keys[e.keyCode];
       });
+      function movePlane() {
+        for (var direction in keys) {
+          if (!keys.hasOwnProperty(direction)) continue;
+          if (direction == 38) {
+            socket.emit('up',player);
+          }
+          if (direction == 40) {
+            socket.emit('down',player);
+          }
+        }
+      }
 
       socket.on('move-up', function(name){
         if(parseInt($("#"+name).css('top'))>=10){
@@ -126,13 +125,64 @@
         }
       });
 
+      $(document).keyup(function(e){
+         if(e.keyCode == 32){
+           socket.emit('player-shoots', player);
+         }
+      });
+      socket.on('trump-shoot', function(){
+        if(power==100){
+          trump_shoot(player);
+          if(player == "trump"){
+            power = 0;
+            $(mana_div).css("height",0);
+            $(mana_div).animate({height: 100}, 1000, "linear",function(){
+              power=100;
+            });
+          }
+        }
+      });
+      socket.on('clinton-shoot', function(){
+        if(power==100){
+          clinton_shoot(player);
+          if(player == "clinton"){
+            power = 0;
+            $(mana_div).css("height",0);
+            $(mana_div).animate({height: 100}, 1000, "linear",function(){
+              power=100;
+            });
+          }
+        }
+      });
+
+      socket.on('clinton-hit',function(){
+        console.log("clinton hit");
+        if(player=="clinton"){
+          socket.emit('health',player);
+          console.log("Health emited");
+        }else if(player=="trump"){
+        }
+      });
+      socket.on('trump-hit',function(){
+        if(player=="trump"){
+          socket.emit('health',player);
+        }else if(player=="clinton"){
+        }
+      });
+      socket.on('update-health',function(hit_player,health){
+        if(hit_player==player){
+          $("#player-health").animate({width: health}, 100, "linear");
+        }else{
+          $("#opp-health").animate({width: health}, 100, "linear");
+        }
+      });
       socket.on('hit', function(data){
-        if(data==player_name){
+        if(data==player){
           opp_health=opp_health-100;
           console.log(data);
           $("#opp-health").animate({width: opp_health}, 100, "linear",function(){
             if(opp_health==0){
-              $("#player").html(player_name);
+              $("#player").html(player);
               $(".darken").fadeIn();
               $("#win").fadeIn();
               return false;
@@ -144,7 +194,7 @@
           console.log(data);
           $("#player-health").animate({width: health}, 100, "linear",function(){
             if(health==0){
-              $("#player").html(player_name);
+              $("#player").html(player);
               $(".darken").fadeIn();
               $("#lose").fadeIn();
               return false;
@@ -152,66 +202,6 @@
           });
         }
       });
-
-      $(document).keyup(function(e){
-         if(e.keyCode == 32 && power==100){
-           socket.emit('shoot', player_name);
-         }
-      });
-      socket.on('trump-shoot', function(){
-        if(player_name == "trump"){
-          power = 0;
-          $(fill).animate({height: 0}, 0, "linear",function(){
-            $(fill).animate({height: 100}, 1000, "linear",function(){
-              power=100;
-            });
-          });
-        }
-        bullets++;
-        $("#canvas").append("<div id='tbullet-"+bullets+"' class='trump-bullet bullet'>WRONG</div>");
-        $("#tbullet-"+bullets).css('top', parseInt($("#trump").css('top'))+50);
-        $("#tbullet-"+bullets).css('right', 150);
-        $("#tbullet-"+bullets).show();
-        $("#tbullet-"+bullets).animate({right: "900"}, 1000, "linear", function(){
-          if(player_name=="trump"){
-            socket.emit('shot',[parseInt($("#tbullet-"+bullets).css('top')),parseInt($(opp).css('top')),player_name]);
-          }
-          $(".bullet").remove();
-        });
-      });
-      socket.on('clinton-shoot', function(){
-        if(player_name == "clinton"){
-          power = 0;
-          $(fill).animate({height: 0}, 0, "linear",function(){
-            $(fill).animate({height: 100}, 1000, "linear",function(){
-              power=100;
-            });
-          });
-        }
-        bullets++;
-        $("#canvas").append("<div id='cbullet-"+bullets+"' class='clinton-bullet bullet'></div>");
-        $("#cbullet-"+bullets).css('top', parseInt($("#clinton").css('top'))+50);
-        $("#cbullet-"+bullets).css('left', 150);
-        $("#cbullet-"+bullets).show();
-        $("#cbullet-"+bullets).animate({left: "900"}, 1000, "linear", function(){
-          if(player_name="hillary"){
-            socket.emit('shot',[parseInt($("#cbullet-"+bullets).css('top')),parseInt($(opp).css('top')),player_name]);
-          }
-          $(".bullet").remove();
-        });
-      });
-
-      function movePlane() {
-          for (var direction in keys) {
-              if (!keys.hasOwnProperty(direction)) continue;
-              if (direction == 38) {
-                  socket.emit('up',player_name);
-              }
-              if (direction == 40) {
-                  socket.emit('down',player_name);
-              }
-          }
-      }
     }
   </script>
 </html>

@@ -82,7 +82,7 @@ html{
   top:0;
   background-size: 100% 100%;
 }
-.fill{
+.mana_div{
   width:100%;
   height:100px;
   position:absolute;
@@ -91,10 +91,10 @@ html{
   background-size: 100px 100px;
   background-position: bottom;
 }
-#fill-trump{
+#mana_div-trump{
   background-image: url("/assets/trump.png");
 }
-#fill-clinton{
+#mana_div-clinton{
   background-image: url("/assets/clinton.png");
 }
 #trump{
@@ -110,14 +110,14 @@ html{
   color:white;
   width:15px;
   height:7px;
-  display:none;
+  right:150px;
 }
 .clinton-bullet{
   position:absolute;
   background-color:white;
   width:15px;
   height:7px;
-  display:none;
+  left:150px;
 }
 
 /* OPENER */

@@ -3,7 +3,7 @@ var socket = io.connect("http://159.203.151.179:3000"); //http://159.203.151.179
 var player;
 var room;
 var username;
-$(".alert").hide();
+var init = false;
 
 $("#choose-trump").click(function(){
   player="trump";
@@ -37,6 +37,18 @@ $("#join").click(function(){
     $("#join-game").fadeIn();
   });
 });
+$("#create-game-form").submit(function(e){
+  e.preventDefault();
+  room = $("#room-id").val();
+  username = $("#create-username").val();
+  $("title").html("TvC Room: "+room);
+  $("#menu-room-id").html(room);
+  socket.emit('new-room', room,player,username);
+  $(".darken").hide();
+  $("#create-game").hide();
+  $("#opener").hide();
+  initialize(player);
+});
 $("#join-game-form").submit(function(e){
   e.preventDefault();
   room = $("#join-id").val();
@@ -46,12 +58,12 @@ $("#join-game-form").submit(function(e){
   socket.emit('join-room', room,username);
 });
 socket.on('player-joined',function(){
-  if(typeof player_name != 'undefined'){ //if you are already connected
-    socket.emit('current-player', player_name);
+  if(init == true){ //if you are already connected
+    socket.emit('current-player', player);
   }
 });
 socket.on('existing-player',function(player){
-  if(typeof player_name == 'undefined'){
+  if(init==false){
     $(".darken").hide();
     $("#join-game").hide();
     $("#opener").hide();
@@ -73,18 +85,6 @@ socket.on('new-info',function(player,username,room){
     type: 'info',
     icon: false
   });
-});
-$("#create-game-form").submit(function(e){
-  e.preventDefault();
-  room = $("#room-id").val();
-  username = $("#create-username").val();
-  $("title").html("TvC Room: "+room);
-  $("#menu-room-id").html(room);
-  socket.emit('new-room', room,player,username);
-  $(".darken").hide();
-  $("#create-game").hide();
-  $("#opener").hide();
-  initialize(player);
 });
 $(".ok").click(function(){
   document.location.reload(true);
