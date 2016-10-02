@@ -37,6 +37,7 @@ io.sockets.on('connection', function(socket){
     io.to(socket.room).emit('existing-player',player);
   });
   socket.on('new-player-info',function(player,username,room){
+    socket.player=player;
     io.to(socket.room).emit('new-info', player,username,room);
   });
 
@@ -58,10 +59,8 @@ io.sockets.on('connection', function(socket){
     }
   });
   socket.on('shot', function(bullet_pos,sprite_pos,shooter){
-    console.log("Someone shot");
     if(bullet_pos > sprite_pos && bullet_pos < (sprite_pos+100)){
       if(shooter=="trump"){
-        console.log("trump shot");
         io.to(socket.room).emit('clinton-hit');
       }else if(shooter=="clinton"){
         io.to(socket.room).emit('trump-hit');
@@ -71,6 +70,13 @@ io.sockets.on('connection', function(socket){
   socket.on('health',function(player){
     socket.health -= 100;
     io.to(socket.room).emit('update-health',player,socket.health);
+    if(socket.health==0){
+      io.to(socket.room).emit('loser',socket.player);
+    }
+  });
+  socket.on('getPlayer',function(){
+    console.log("emitting player");
+    io.to(socket.id).emit('player',socket.player);
   });
 
   //Disconect

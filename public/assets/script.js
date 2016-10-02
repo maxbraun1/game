@@ -1,6 +1,5 @@
-var socket = io.connect("http://159.203.151.179:3000"); //http://159.203.151.179:3000/
+var socket = io.connect("http://localhost:3000"); //http://159.203.151.179:3000/
 
-var player;
 var room;
 var username;
 var init = false;
@@ -68,11 +67,13 @@ socket.on('existing-player',function(player){
     $("#join-game").hide();
     $("#opener").hide();
     if(player=="trump"){
+      player = "clinton";
+      socket.emit('new-player-info', "clinton",username,room);
       initialize("clinton");
-      socket.emit('new-player-info', "Clinton",username,room);
     }else if(player=="clinton"){
+      player = "trump";
+      socket.emit('new-player-info', "trump",username,room);
       initialize("trump");
-      socket.emit('new-player-info', "Trump",username,room);
     }else{
       document.location.reload(true);
     }
@@ -85,6 +86,37 @@ socket.on('new-info',function(player,username,room){
     type: 'info',
     icon: false
   });
+});
+socket.on('loser',function(loser){
+  if(player==null){
+    socket.emit('getPlayer');
+  }else{
+    announce(player);
+  }
+  socket.on('player',function(player){
+    announce(player);
+  });
+  function announce(player){
+    console.log(loser+" AND "+player);
+    if(loser==player){
+      if(loser=="trump"){
+        $("#lose #player").html("Trump");
+      }else if(loser=="clinton"){
+        $("#lose #player").html("Clinton");
+      }
+      $(".darken").fadeIn();
+      $("#lose").fadeIn();
+    }
+    else{
+      if(loser=="trump"){
+        $("#win #player").html("Clinton");
+      }else if(loser=="clinton"){
+        $("#win #player").html("Trump");
+      }
+      $(".darken").fadeIn();
+      $("#win").fadeIn();
+    }
+  }
 });
 $(".ok").click(function(){
   document.location.reload(true);
