@@ -1,6 +1,6 @@
 function trump_shoot(player){
   $("#canvas").append("<div id='tbullet' class='trump-bullet bullet'>WRONG</div>");
-  $("#tbullet").css('top', parseInt($("#trump").css('top'))+50);
+  $("#tbullet").css('top', parseInt($("#trump").css('top'))+20);
   $("#tbullet").animate({right: "900"}, 1000, "linear", function(){
     if(player=="trump"){
       socket.emit('shot',parseInt($("#tbullet").css('top')),parseInt($(opp_sprite).css('top')),player);
@@ -10,8 +10,8 @@ function trump_shoot(player){
 }
 
 function clinton_shoot(player){
-  $("#canvas").append("<div id='cbullet' class='clinton-bullet bullet'></div>");
-  $("#cbullet").css('top', parseInt($("#clinton").css('top'))+50);
+  $("#canvas").append("<div id='cbullet' class='clinton-bullet bullet'>SEXIST</div>");
+  $("#cbullet").css('top', parseInt($("#clinton").css('top'))+20);
   $("#cbullet").animate({left: "900"}, 1000, "linear", function(){
     if(player=="clinton"){
       socket.emit('shot',parseInt($("#cbullet").css('top')),parseInt($(opp_sprite).css('top')),player);
@@ -20,9 +20,27 @@ function clinton_shoot(player){
   });
 }
 
+function clinton_shoot_wall(player){
+  $("#canvas").append("<div id='cbullet' class='clinton-bullet bullet'>SEXIST</div>");
+  $("#cbullet").css('top', parseInt($("#clinton").css('top'))+20);
+  if(parseInt($("#cbullet").css('top'))>90 && parseInt($("#cbullet").css('top'))<=300){
+    //If bullet is in range of wall
+    $("#cbullet").animate({left: "400"}, 500, "linear", function(){
+      $("#cbullet").remove();
+    });
+  }else{
+    $("#cbullet").animate({left: "900"}, 1000, "linear", function(){
+      if(player=="clinton"){
+        socket.emit('shot',parseInt($("#cbullet").css('top')),parseInt($(opp_sprite).css('top')),player);
+      }
+      $("#cbullet").remove();
+    });
+  }
+}
+
 function initialize(player){
   init = true;
-  console.log("You are "+player);
+  game_log("You are "+player);
   health = 500;
   opp_health = 500;
   var power = 100;
@@ -32,12 +50,14 @@ function initialize(player){
     sprite="#trump";
     mana_div="#mana_div-trump";
     opp_sprite="#clinton";
+    $("#trump-powerup").fadeIn();
   }
   else if(player=="clinton"){
     player="clinton";
     sprite="#clinton";
     mana_div="#mana_div-clinton";
     opp_sprite="#trump";
+    $("#clinton-powerup").fadeIn();
   }
 
   setInterval(movePlane, 20);
@@ -66,7 +86,7 @@ function initialize(player){
     }
   });
   socket.on('move-down', function(name){
-    if(parseInt($("#"+name).css('top'))<=390){
+    if(parseInt($("#"+name).css('top'))<=350){
       $("#"+name).animate({top: "+=10"}, 0);
     }
   });
@@ -82,7 +102,7 @@ function initialize(player){
       if(player == "trump"){
         power = 0;
         $(mana_div).css("height",0);
-        $(mana_div).animate({height: 100}, 1000, "linear",function(){
+        $(mana_div).animate({height: 50}, 1000, "linear",function(){
           power=100;
         });
       }
@@ -90,11 +110,15 @@ function initialize(player){
   });
   socket.on('clinton-shoot', function(){
     if(power==100){
-      clinton_shoot(player);
+      if(wall==true){
+        clinton_shoot_wall(player);
+      }else{
+        clinton_shoot(player);
+      }
       if(player == "clinton"){
         power = 0;
         $(mana_div).css("height",0);
-        $(mana_div).animate({height: 100}, 1000, "linear",function(){
+        $(mana_div).animate({height: 50}, 1000, "linear",function(){
           power=100;
         });
       }
@@ -120,4 +144,50 @@ function initialize(player){
       $("#opp-health").animate({width: health}, 100, "linear");
     }
   });
+}
+
+function game_log(message){
+  $('#log').html(message);
+  $('#log').fadeIn();
+  setTimeout(function() { $("#log").fadeOut(); }, 3000);
+}
+
+$(document).keypress(function(e) {
+  if(player==null){
+    player = getPlayer();
+  }
+  if(e.which == 107) {
+    if(player=="trump"){
+      socket.emit('powerup-trump');
+    }
+    else if(player=="clinton"){
+      socket.emit('powerup-clinton');
+    }
+  }
+});
+
+socket.on('wall',function(){
+  wall();
+});
+
+function wall(){
+  wall=true;
+  $("#wall").fadeIn();
+  if(player="trump"){
+    $("#trump-warmup").css("width",0);
+    $("#trump-warmup").css("background-color","rgba(255,0,0,0.4)");
+    $("#trump-warmup").animate({width: "100%"}, 15000, "linear");
+  }
+  setTimeout(function() {
+    wall=false;
+    $("#wall").fadeOut();
+    $("#log").fadeOut();
+  }, 15000);
+}
+function getPlayer(){
+  socket.emit('getPlayer');
+  socket.on('player',function(theplayer){
+    player = theplayer;
+  });
+  return player;
 }

@@ -17,8 +17,11 @@
     <div class="side" id="side-trump">
       <div class="sprite" id="trump"><div id="mana_div-trump" class="mana_div"></div></div>
     </div>
+    <div id="wall"></div>
+    <div id="email"></div>
   </div>
   <div id="info">
+    <h2 id="log">This is the log...</h2>
     <div id="container">
       <div id="health-bars">
         <p>Your Health</p>
@@ -26,7 +29,18 @@
         <p>Opponent Health</p>
         <div class="health" id="opp-health"></div>
       </div>
-      <div id="power-up"></div>
+      <div id="power-up">
+        <div class="powerup" id="trump-powerup">
+          <h1>Wall (P)</h1>
+          <p>To use, press "P". This powerup builds a wall between you and Clinton for 15 seconds.</p>
+          <div class="warmup" id="trump-warmup"></div>
+        </div>
+        <div class="powerup" id="clinton-powerup">
+          <h1>Delete (P)</h1>
+          <p>To use, press "P". This powerup "accidentally" deletes all of trumps emails. for 10 seconds.</p>
+          <div class="warmup" id="trump-warmup"></div>
+        </div>
+      </div>
     </div>
   </div>
   <div id="opener">
@@ -69,7 +83,11 @@
     <button class="ok">Home</button>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  <script>var player = null;</script>
+  <script>
+  var player = null;
+  var wall=false;
+  var email=false;
+  var warmup=100;</script>
   <script type="text/javascript" src="/assets/pnotify.custom.min.js"></script>
   <script src="../assets/socket.io.js"></script>
   <script src="/assets/script.js"></script>

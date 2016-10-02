@@ -24,6 +24,7 @@ io.sockets.on('connection', function(socket){
     socket.player = player;
     socket.username = username;
     socket.health = 500;
+    socket.powerup = true;
     console.log("User created room "+room+" as player "+player);
   });
   socket.on('join-room', function(room,username){
@@ -32,6 +33,7 @@ io.sockets.on('connection', function(socket){
     socket.room = room;
     socket.username = username;
     socket.health = 500;
+    socket.powerup = true;
   });
   socket.on('current-player',function(player){
     io.to(socket.room).emit('existing-player',player);
@@ -77,6 +79,22 @@ io.sockets.on('connection', function(socket){
   socket.on('getPlayer',function(){
     console.log("emitting player");
     io.to(socket.id).emit('player',socket.player);
+  });
+
+  // Powerups
+  socket.on('powerup-trump',function(){
+    if(socket.powerup==true){
+      console.log('Wall activated');
+      io.to(socket.room).emit('wall');
+      socket.powerup = false;
+    }
+  });
+  socket.on('powerup-clinton',function(){
+    if(socket.powerup==true){
+      console.log('Email activated');
+      io.to(socket.room).emit('email');
+      socket.powerup = false;
+    }
   });
 
   //Disconect
