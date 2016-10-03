@@ -1,7 +1,7 @@
 function trump_shoot(player){
   $("#canvas").append("<div id='tbullet' class='trump-bullet bullet'>WRONG</div>");
   $("#tbullet").css('top', parseInt($("#trump").css('top'))+20);
-  $("#tbullet").animate({right: "900"}, 1000, "linear", function(){
+  $("#tbullet").animate({right: "900"}, 500, "linear", function(){
     if(player=="trump"){
       socket.emit('shot',parseInt($("#tbullet").css('top')),parseInt($(opp_sprite).css('top')),player);
     }
@@ -12,7 +12,7 @@ function trump_shoot_email(player){
   $("#tbullet").remove();
   $("#canvas").append("<div id='tbullet' class='trump-bullet email bullet'></div>");
   $("#tbullet").css('top', parseInt($("#trump").css('top'))+20);
-  $("#tbullet").animate({right: "500"}, 500, "linear", function(){
+  $("#tbullet").animate({right: "500"}, 250, "linear", function(){
     $(".email").css("background-image","url('/assets/x.png')");
     setTimeout(function() {
       $("#tbullet").remove();
@@ -23,7 +23,7 @@ function trump_shoot_email(player){
 function clinton_shoot(player){
   $("#canvas").append("<div id='cbullet' class='clinton-bullet bullet'>SEXIST</div>");
   $("#cbullet").css('top', parseInt($("#clinton").css('top'))+20);
-  $("#cbullet").animate({left: "900"}, 1000, "linear", function(){
+  $("#cbullet").animate({left: "900"}, 500, "linear", function(){
     if(player=="clinton"){
       socket.emit('shot',parseInt($("#cbullet").css('top')),parseInt($(opp_sprite).css('top')),player);
     }
@@ -36,11 +36,11 @@ function clinton_shoot_wall(player){
   $("#cbullet").css('top', parseInt($("#clinton").css('top'))+20);
   if(parseInt($("#cbullet").css('top'))>90 && parseInt($("#cbullet").css('top'))<=300){
     //If bullet is in range of wall
-    $("#cbullet").animate({left: "400"}, 500, "linear", function(){
+    $("#cbullet").animate({left: "400"}, 250, "linear", function(){
       $("#cbullet").remove();
     });
   }else{
-    $("#cbullet").animate({left: "900"}, 1000, "linear", function(){
+    $("#cbullet").animate({left: "900"}, 500, "linear", function(){
       if(player=="clinton"){
         socket.emit('shot',parseInt($("#cbullet").css('top')),parseInt($(opp_sprite).css('top')),player);
       }
