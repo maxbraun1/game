@@ -127,7 +127,7 @@ function initialize(player_name){
       if(player == "trump"){
         power = 0;
         $(mana_div).css("height",0);
-        $(mana_div).animate({height: 50}, 1000, "linear",function(){
+        $(mana_div).animate({height: 100}, 1000, "linear",function(){
           power=100;
         });
       }
@@ -136,7 +136,7 @@ function initialize(player_name){
       if(player == "trump"){
         power = 0;
         $(mana_div).css("height",0);
-        $(mana_div).animate({height: 50}, 1000, "linear",function(){
+        $(mana_div).animate({height: 100}, 1000, "linear",function(){
           power=100;
         });
       }
@@ -148,7 +148,7 @@ function initialize(player_name){
       if(player == "clinton"){
         power = 0;
         $(mana_div).css("height",0);
-        $(mana_div).animate({height: 50}, 1000, "linear",function(){
+        $(mana_div).animate({height: 100}, 1000, "linear",function(){
           power=100;
         });
       }
@@ -157,7 +157,7 @@ function initialize(player_name){
       if(player == "clinton"){
         power = 0;
         $(mana_div).css("height",0);
-        $(mana_div).animate({height: 50}, 1000, "linear",function(){
+        $(mana_div).animate({height: 100}, 1000, "linear",function(){
           power=100;
         });
       }
