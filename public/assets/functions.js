@@ -112,55 +112,56 @@ function initialize(player_name){
   $(document).keyup(function(e){
      if(e.keyCode == 32){
        if(ready==true){
-         socket.emit('player-shoots', player);
+         if(power==100){
+           power=0;
+           socket.emit('player-shoots', player);
+         }
        }else{
          game_log("Wait for another user to connect to begin!");
        }
      }
   });
   socket.on('trump-shoot', function(){
-    if(power==100){
-      if(email==true){
-        trump_shoot_email(player);
-        if(player == "trump"){
-          power = 0;
-          $(mana_div).css("height",0);
-          $(mana_div).animate({height: 50}, 1000, "linear",function(){
-            power=100;
-          });
-        }
-      }else{
-        trump_shoot(player);
-        if(player == "trump"){
-          power = 0;
-          $(mana_div).css("height",0);
-          $(mana_div).animate({height: 50}, 1000, "linear",function(){
-            power=100;
-          });
-        }
+    if(email==true){
+      trump_shoot_email(player);
+      if(player == "trump"){
+        power = 0;
+        $(mana_div).css("height",0);
+        $(mana_div).animate({height: 50}, 1000, "linear",function(){
+          power=100;
+        });
+      }
+    }
+    }else{
+      trump_shoot(player);
+      if(player == "trump"){
+        power = 0;
+        $(mana_div).css("height",0);
+        $(mana_div).animate({height: 50}, 1000, "linear",function(){
+          power=100;
+        });
       }
     }
   });
   socket.on('clinton-shoot', function(){
-    if(power==100){
-      if(wall==true){
-        clinton_shoot_wall(player);
-        if(player == "clinton"){
-          power = 0;
-          $(mana_div).css("height",0);
-          $(mana_div).animate({height: 50}, 1000, "linear",function(){
-            power=100;
-          });
-        }
-      }else{
-        clinton_shoot(player);
-        if(player == "clinton"){
-          power = 0;
-          $(mana_div).css("height",0);
-          $(mana_div).animate({height: 50}, 1000, "linear",function(){
-            power=100;
-          });
-        }
+    if(wall==true){
+      clinton_shoot_wall(player);
+      if(player == "clinton"){
+        power = 0;
+        $(mana_div).css("height",0);
+        $(mana_div).animate({height: 50}, 1000, "linear",function(){
+          power=100;
+        });
+      }
+    }
+    }else{
+      clinton_shoot(player);
+      if(player == "clinton"){
+        power = 0;
+        $(mana_div).css("height",0);
+        $(mana_div).animate({height: 50}, 1000, "linear",function(){
+          power=100;
+        });
       }
     }
   });
