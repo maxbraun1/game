@@ -42,6 +42,10 @@ io.sockets.on('connection', function(socket){
     socket.player=player;
     io.to(socket.room).emit('new-info', player,username,room);
   });
+  socket.on('ready',function(){
+    io.to(socket.room).emit('game_ready');
+    console.log("Game ready on room "+socket.room);
+  });
 
   // Movements
   socket.on('up', function(data){
@@ -61,7 +65,7 @@ io.sockets.on('connection', function(socket){
     }
   });
   socket.on('shot', function(bullet_pos,sprite_pos,shooter){
-    if(bullet_pos > sprite_pos && bullet_pos < (sprite_pos+100)){
+    if(bullet_pos > sprite_pos && bullet_pos < (sprite_pos+50)){
       if(shooter=="trump"){
         io.to(socket.room).emit('clinton-hit');
       }else if(shooter=="clinton"){

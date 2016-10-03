@@ -1,4 +1,4 @@
-var socket = io.connect("http://159.203.151.179:3000"); //http://159.203.151.179:3000/
+var socket = io.connect("http://localhost:3000"); //http://159.203.151.179:3000/
 
 var room;
 var username;
@@ -48,6 +48,7 @@ $("#create-game-form").submit(function(e){
   $(".darken").hide();
   $("#create-game").hide();
   $("#opener").hide();
+  ready=false;
   initialize(player);
 });
 $("#join-game-form").submit(function(e){
@@ -71,10 +72,12 @@ socket.on('existing-player',function(player){
     if(player=="trump"){
       player = "clinton";
       socket.emit('new-player-info', "clinton",username,room);
+      socket.emit('ready');
       initialize("clinton");
     }else if(player=="clinton"){
       player = "trump";
       socket.emit('new-player-info', "trump",username,room);
+      socket.emit('ready');
       initialize("trump");
     }else{
       document.location.reload(true);
@@ -122,4 +125,8 @@ socket.on('loser',function(loser){
 });
 $(".ok").click(function(){
   document.location.reload(true);
+});
+socket.on('game_ready',function(){
+  ready=true;
+  game_log("Game has begun", true);
 });

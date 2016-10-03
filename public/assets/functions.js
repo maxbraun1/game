@@ -82,10 +82,18 @@ function initialize(player_name){
     for (var direction in keys) {
       if (!keys.hasOwnProperty(direction)) continue;
       if (direction == 38) {
-        socket.emit('up',player);
+        if(ready==true){
+          socket.emit('up',player);
+        }else{
+          game_log("Wait for another user to connect to begin!");
+        }
       }
       if (direction == 40) {
-        socket.emit('down',player);
+        if(ready==true){
+          socket.emit('down',player);
+        }else{
+          game_log("Wait for another user to connect to begin!");
+        }
       }
     }
   }
@@ -103,7 +111,11 @@ function initialize(player_name){
 
   $(document).keyup(function(e){
      if(e.keyCode == 32){
-       socket.emit('player-shoots', player);
+       if(ready==true){
+         socket.emit('player-shoots', player);
+       }else{
+         game_log("Wait for another user to connect to begin!");
+       }
      }
   });
   socket.on('trump-shoot', function(){
@@ -160,18 +172,34 @@ function initialize(player_name){
   });
 }
 
-function game_log(message){
-  $('#log').html(message);
-  $('#log').fadeIn();
-  setTimeout(function() { $("#log").fadeOut(); }, 3000);
+function game_log(message, override){
+  if(once==true | override==true ){
+    once=false;
+    $('#log').fadeOut(function(){
+      $('#log').html(message);
+    });
+    $('#log').fadeIn();
+    setTimeout(function() {
+      $("#log").fadeOut(function(){
+        $('#log').html("<span id='default'>Game Console</span>");
+      });
+      $('#log').fadeIn(function(){
+        once=true;
+      });
+    }, 3000);
+  }
 }
 
 $(document).keypress(function(e) {
-  if(e.which == 107) {
-    if(player=="trump"){
-      socket.emit('powerup-trump');
-    }else if(player=="clinton"){
-      socket.emit('powerup-clinton');
+  if(e.which == 112) {
+    if(ready==true){
+      if(player=="trump"){
+        socket.emit('powerup-trump');
+      }else if(player=="clinton"){
+        socket.emit('powerup-clinton');
+      }
+    }else{
+      game_log("Wait for another user to connect to begin!");
     }
   }
 });
