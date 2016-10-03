@@ -15,7 +15,8 @@ app.use(express.static(__dirname + '/public'));
 
 io.sockets.on('connection', function(socket){
   connections.push(socket);
-  console.log('Connected: %s sockets connected', connections.length);
+  var d = new Date();
+  console.log('Connected: '+connections.length+' sockets connected at '+d.getHours()+':'+d.getMinutes());
 
   //Creating and joining rooms
   socket.on('new-room', function(room, player, username){
