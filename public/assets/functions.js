@@ -131,7 +131,6 @@ function initialize(player_name){
           power=100;
         });
       }
-    }
     }else{
       trump_shoot(player);
       if(player == "trump"){
@@ -153,7 +152,6 @@ function initialize(player_name){
           power=100;
         });
       }
-    }
     }else{
       clinton_shoot(player);
       if(player == "clinton"){
