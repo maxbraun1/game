@@ -100,6 +100,11 @@ io.sockets.on('connection', function(socket){
     }
   });
 
+  //message
+  socket.on('message',function(message){
+    socket.emit('new-message',message);
+  });
+
   //Disconect
   socket.on('disconnect', function(data){
     io.to(socket.room).emit('player-left', socket.username);

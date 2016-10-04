@@ -5,6 +5,8 @@ var room;
 var username;
 var init = false;
 
+$("#chat").hide();
+
 //$("#opener").hide();
 
 $("#choose-trump").click(function(){
@@ -104,24 +106,25 @@ socket.on('loser',function(loser){
     announce(player);
   });
   function announce(player){
-    console.log(loser+" AND "+player);
-    if(loser==player){
-      if(loser=="trump"){
-        $("#lose #player").html("Trump");
-      }else if(loser=="clinton"){
-        $("#lose #player").html("Clinton");
+    if(ready==true){
+      if(loser==player){
+        if(loser=="trump"){
+          $("#lose #player").html("Trump");
+        }else if(loser=="clinton"){
+          $("#lose #player").html("Clinton");
+        }
+        $(".darken").fadeIn();
+        $("#lose").fadeIn();
       }
-      $(".darken").fadeIn();
-      $("#lose").fadeIn();
-    }
-    else{
-      if(loser=="trump"){
-        $("#win #player").html("Clinton");
-      }else if(loser=="clinton"){
-        $("#win #player").html("Trump");
+      else{
+        if(loser=="trump"){
+          $("#win #player").html("Clinton");
+        }else if(loser=="clinton"){
+          $("#win #player").html("Trump");
+        }
+        $(".darken").fadeIn();
+        $("#win").fadeIn();
       }
-      $(".darken").fadeIn();
-      $("#win").fadeIn();
     }
   }
 });
@@ -131,4 +134,11 @@ $(".ok").click(function(){
 socket.on('game_ready',function(){
   ready=true;
   game_log("Game has begun", true);
+});
+
+$("#chat-tab").click(function(){
+  $("#chat").slideDown();
+});
+$("#close-chat").click(function(){
+  $("#chat").slideUp();
 });

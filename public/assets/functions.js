@@ -270,3 +270,23 @@ ready=false;
 socket.on('count',function(count){
   $("#count-span").html(count);
 });
+
+$('#message-area').keypress(function (e) {
+  if (e.which == 13) {
+    e.preventDefault();
+    var message = $("#message-area").val();
+    $("#message-area").val("");
+    socket.emit('message', message);
+  }
+});
+
+socket.on('new-message',function(message){
+  var currentdate = new Date();
+    var datetime = currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/"
+                + currentdate.getFullYear() + " "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+  $("#chat-msgs").prepend("<div class='message'>"+message+"<p id='date'>At <span id='date-time'>"+datetime+"</span></p></div>");
+});
