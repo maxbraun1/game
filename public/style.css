@@ -157,6 +157,8 @@ html{
 }
 /* OPENER */
 #opener{
+  background-image: url("/assets/background.jpg");
+  background-size: cover;
   position:absolute;
   top:0;
   bottom:0;
