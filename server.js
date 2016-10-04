@@ -17,7 +17,7 @@ io.sockets.on('connection', function(socket){
   connections.push(socket);
   socket.emit('count',connections.length);
   var d = new Date();
-  console.log('Connected: '+connections.length+' sockets connected');
+  console.log(connections.length+' connections');
 
   //Creating and joining rooms
   socket.on('new-room', function(room, player, username){
@@ -83,21 +83,18 @@ io.sockets.on('connection', function(socket){
     }
   });
   socket.on('getPlayer',function(){
-    console.log("emitting player");
     io.to(socket.id).emit('player',socket.player);
   });
 
   // Powerups
   socket.on('powerup-trump',function(){
     if(socket.powerup==true){
-      console.log('Wall activated');
       io.to(socket.room).emit('wall');
       socket.powerup = false;
     }
   });
   socket.on('powerup-clinton',function(){
     if(socket.powerup==true){
-      console.log('Email activated');
       io.to(socket.room).emit('email');
       socket.powerup = false;
     }
@@ -110,6 +107,6 @@ io.sockets.on('connection', function(socket){
     socket.emit('count',connections.length);
     console.log("["+socket.username+"] disconnected from room "+socket.room);
     connections.splice(connections.indexOf(socket), 1);
-    console.log('Disconnected: %s sockets connected', connections.length);
+    console.log(connections.length+" connections");
   });
 });
