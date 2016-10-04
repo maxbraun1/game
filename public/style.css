@@ -405,6 +405,7 @@ html{
   vertical-align:bottom;
 }
 #chat{
+  display:none;
   width:300px;
   background-color: white;
   height:500px;
