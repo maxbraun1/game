@@ -94,6 +94,7 @@ socket.on('new-info',function(player,username,room){
   });
 });
 socket.on('loser',function(loser){
+  ready=false;
   if(player==null){
     socket.emit('getPlayer');
   }else{

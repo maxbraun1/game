@@ -372,3 +372,13 @@ html{
   right:450px;
   display:none;
 }
+#count{
+  text-align:left;
+  width:300px;
+  background-color: #004d80;
+  color:white;
+  position: absolute;
+  bottom:0;
+  right:0;
+  padding:10px;
+}

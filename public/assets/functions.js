@@ -257,3 +257,16 @@ function getPlayer(){
   });
   return player;
 }
+
+socket.on('player-left', function(username){
+  new PNotify({
+    title: 'User Left!',
+    text: 'Opps! '+username+' left the room...',
+    type: 'error'
+});
+ready=false;
+});
+
+socket.on('count',function(count){
+  $("#count-span").html(count);
+});

@@ -15,6 +15,7 @@ app.use(express.static(__dirname + '/public'));
 
 io.sockets.on('connection', function(socket){
   connections.push(socket);
+  socket.emit('count',connections.length);
   var d = new Date();
   console.log('Connected: '+connections.length+' sockets connected');
 
@@ -104,7 +105,10 @@ io.sockets.on('connection', function(socket){
 
   //Disconect
   socket.on('disconnect', function(data){
+    io.to(socket.room).emit('player-left', socket.username);
     socket.leave(socket.room);
+    socket.emit('count',connections.length);
+    console.log("["+socket.username+"] disconnected from room "+socket.room);
     connections.splice(connections.indexOf(socket), 1);
     console.log('Disconnected: %s sockets connected', connections.length);
   });
