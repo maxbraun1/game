@@ -165,13 +165,13 @@ function initialize(player_name){
   });
 
   socket.on('clinton-hit',function(){
-    console.log("clinton hit");
+    $("#clinton").effect( "shake", {times:2},200 );
     if(player=="clinton"){
       socket.emit('health',player);
-      console.log("Health emited");
     }
   });
   socket.on('trump-hit',function(){
+    $("#trump").effect( "shake", {times:2},200);
     if(player=="trump"){
       socket.emit('health',player);
     }
