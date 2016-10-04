@@ -1,6 +1,6 @@
 function trump_shoot(player){
   $("#canvas").append("<div id='tbullet' class='trump-bullet bullet'>WRONG</div>");
-  $("#tbullet").css('top', parseInt($("#trump").css('top'))+20);
+  $("#tbullet").css('top', parseInt($("#trump").css('top'))+45);
   $("#tbullet").animate({right: "900"}, 500, "linear", function(){
     if(player=="trump"){
       socket.emit('shot',parseInt($("#tbullet").css('top')),parseInt($(opp_sprite).css('top')),player);
@@ -11,7 +11,7 @@ function trump_shoot(player){
 function trump_shoot_email(player){
   $("#tbullet").remove();
   $("#canvas").append("<div id='tbullet' class='trump-bullet email bullet'></div>");
-  $("#tbullet").css('top', parseInt($("#trump").css('top'))+20);
+  $("#tbullet").css('top', parseInt($("#trump").css('top'))+45);
   $("#tbullet").animate({right: "500"}, 250, "linear", function(){
     $(".email").css("background-image","url('/assets/x.png')");
     setTimeout(function() {
@@ -22,7 +22,7 @@ function trump_shoot_email(player){
 
 function clinton_shoot(player){
   $("#canvas").append("<div id='cbullet' class='clinton-bullet bullet'>SEXIST</div>");
-  $("#cbullet").css('top', parseInt($("#clinton").css('top'))+20);
+  $("#cbullet").css('top', parseInt($("#clinton").css('top'))+45);
   $("#cbullet").animate({left: "900"}, 500, "linear", function(){
     if(player=="clinton"){
       socket.emit('shot',parseInt($("#cbullet").css('top')),parseInt($(opp_sprite).css('top')),player);
@@ -33,7 +33,7 @@ function clinton_shoot(player){
 
 function clinton_shoot_wall(player){
   $("#canvas").append("<div id='cbullet' class='clinton-bullet bullet'>SEXIST</div>");
-  $("#cbullet").css('top', parseInt($("#clinton").css('top'))+20);
+  $("#cbullet").css('top', parseInt($("#clinton").css('top'))+45);
   if(parseInt($("#cbullet").css('top'))>90 && parseInt($("#cbullet").css('top'))<=300){
     //If bullet is in range of wall
     $("#cbullet").animate({left: "400"}, 250, "linear", function(){
@@ -99,7 +99,7 @@ function initialize(player_name){
   }
 
   socket.on('move-up', function(name){
-    if(parseInt($("#"+name).css('top'))>=10){
+    if(parseInt($("#"+name).css('top'))>=20){
       $("#"+name).animate({top: "-=10"}, 0);
     }
   });

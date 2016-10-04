@@ -95,18 +95,18 @@ html{
   position:relative;
 }
 #side-clinton{
-  background-color:transparent;
+  background-image:url('/assets/stars.png');
   float:left;
 }
 #side-trump{
-  background-color:transparent;
+  background-image:url('/assets/stripes.png');
   float:right;
 }
 .sprite{
   width:100px;
   height:100px;
   position:absolute;
-  top:0;
+  top:10px;
   background-size: 100% 100%;
 }
 .mana_div{
@@ -125,11 +125,11 @@ html{
   background-image: url("/assets/clinton.png");
 }
 #trump{
-  right:50px;
+  right:10px;
   background-image: url("/assets/trump_fade.png");
 }
 #clinton{
-  left:50px;
+  left:10px;
   background-image: url("/assets/clinton_fade.png");
 }
 .trump-bullet{
