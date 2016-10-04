@@ -1,5 +1,5 @@
-var socket = io.connect("http://localhost:3000");
-//var socket = io.connect("http://159.203.151.179:3000");
+//var socket = io.connect("http://localhost:3000");
+var socket = io.connect("http://159.203.151.179:3000");
 
 var room;
 var username;

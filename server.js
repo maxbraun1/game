@@ -26,7 +26,7 @@ io.sockets.on('connection', function(socket){
     socket.username = username;
     socket.health = 500;
     socket.powerup = true;
-    console.log("User created room "+room+" as player "+player);
+    console.log("["+username+"] created room "+room+" as player "+player);
   });
   socket.on('join-room', function(room,username){
     io.to(room).emit('player-joined');
