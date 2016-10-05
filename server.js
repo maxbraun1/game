@@ -6,7 +6,7 @@ var io = require('socket.io').listen(server);
 users = [];
 connections = [];
 
-server.listen(3000);
+server.listen(80);
 console.log("Server running...");
 
 app.use(express.static(__dirname + '/public'));

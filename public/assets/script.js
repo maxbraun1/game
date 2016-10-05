@@ -1,5 +1,5 @@
 //var socket = io.connect("http://localhost:3000");
-var socket = io.connect("http://159.203.151.179:3000");
+var socket = io.connect("http://159.203.151.179:80");
 
 var room;
 var username;
@@ -96,7 +96,6 @@ socket.on('new-info',function(player,username,room){
   });
 });
 socket.on('loser',function(loser){
-  ready=false;
   if(player==null){
     socket.emit('getPlayer');
   }else{
@@ -107,6 +106,7 @@ socket.on('loser',function(loser){
   });
   function announce(player){
     if(ready==true){
+      ready=false;
       if(loser==player){
         if(loser=="trump"){
           $("#lose #player").html("Trump");

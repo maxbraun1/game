@@ -159,6 +159,7 @@ html{
 #opener{
   background-image: url("/assets/background.jpg");
   background-size: cover;
+  background-position: center;
   position:absolute;
   top:0;
   bottom:0;
