@@ -7,6 +7,12 @@ var init = false;
 
 $("#chat").hide();
 
+new PNotify({
+  title: 'New Domain',
+  hide: false,
+  text: 'This game can now be found at <strong>tvcgame.us</strong>'
+});
+
 //$("#opener").hide();
 
 $("#choose-trump").click(function(){

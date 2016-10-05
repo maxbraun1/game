@@ -290,3 +290,7 @@ socket.on('new-message',function(message){
                 + currentdate.getSeconds();
   $("#chat-msgs").prepend("<div class='message'>"+message+"<p id='date'>At <span id='date-time'>"+datetime+"</span></p></div>");
 });
+
+$(".alert-close").click(function(){
+  permanotice.remove();
+});
