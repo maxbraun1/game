@@ -19,7 +19,7 @@
 
     </div>
     <div id="wall"></div>
-    <div id="email"></div>
+    <!-- <div id="email"></div> -->
   </div>
   <div id="info">
     <h2 id="log">This is the log...</h2>
@@ -40,6 +40,11 @@
           <h1>Delete (P)</h1>
           <p>To use, press "P". This powerup "accidentally" deletes all of trumps emails. for 10 seconds.</p>
           <div class="warmup" id="clinton-warmup"></div>
+        </div>
+        <div class="powerup" id="bill-powerup">
+          <h1>Impeachment (P)</h1>
+          <p>To use, press "P". This powerup impeaches Bill Clinton and makes him vanish for 15 seconds.</p>
+          <div class="warmup" id="bill-warmup"></div>
         </div>
       </div>
     </div>
@@ -91,6 +96,7 @@
     <h1>Choose a player</h1>
     <div class="player-choice" id="trump-choice"><img src="assets/trump.png"/></div>
     <div class="player-choice" id="clinton-choice"><img src="assets/clinton.png"/></div>
+    <div class="player-choice" id="bill-choice"><img src="assets/bill.png"/></div>
     <div class="cancel" id="player-select-cancel"/>Cancle</div>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -104,4 +110,5 @@
   <!-- Player scripts -->
   <script src="/scripts/trump.js"></script>
   <script src="/scripts/clinton.js"></script>
+  <script src="/scripts/bill.js"></script>
 </html>

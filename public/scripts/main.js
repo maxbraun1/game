@@ -15,6 +15,8 @@ $(document).keypress(function(e) {
         socket.emit('powerup-trump');
       }else if(player=="clinton"){
         socket.emit('powerup-clinton');
+      }else if(player=="bill"){
+        socket.emit('powerup-bill');
       }
     }else{
       game_log("Wait for another user to connect to begin!");
@@ -128,6 +130,36 @@ socket.on('clinton-shoot', function(){
     }
   }
 });
+socket.on('bill-shoot', function(){
+  if(wall==true){
+    bill_shoot_wall(player);
+    if(player == "bill"){
+      power = 0;
+      $(mana_div).css("height",0);
+      $(mana_div).animate({height: 100}, 1000, "linear",function(){
+        power=100;
+      });
+    }
+  }if(email==true){
+    bill_shoot_email(player);
+    if(player == "bill"){
+      power = 0;
+      $(mana_div).css("height",0);
+      $(mana_div).animate({height: 100}, 1000, "linear",function(){
+        power=100;
+      });
+    }
+  }else{
+    bill_shoot(player);
+    if(player == "bill"){
+      power = 0;
+      $(mana_div).css("height",0);
+      $(mana_div).animate({height: 100}, 1000, "linear",function(){
+        power=100;
+      });
+    }
+  }
+});
 socket.on('clinton-hit',function(){
   $("#clinton").effect( "shake", {times:2},200 );
   if(player=="clinton"){
@@ -137,6 +169,12 @@ socket.on('clinton-hit',function(){
 socket.on('trump-hit',function(){
   $("#trump").effect( "shake", {times:2},200);
   if(player=="trump"){
+    socket.emit('health',player);
+  }
+});
+socket.on('bill-hit',function(){
+  $("#bill").effect( "shake", {times:2},200);
+  if(player=="bill"){
     socket.emit('health',player);
   }
 });
@@ -154,7 +192,9 @@ socket.on('wall',function(){
 socket.on('email',function(){
   email();
 });
-
+socket.on('impeach',function(){
+  impeach();
+});
 socket.on('player-left', function(username){
   new PNotify({
     title: 'User Left!',

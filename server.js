@@ -7,7 +7,7 @@ users = [];
 connections = [];
 rooms = [];
 
-server.listen(80);
+server.listen(3000);
 console.log("Server running...");
 
 app.use(express.static(__dirname + '/public'));
@@ -57,17 +57,20 @@ io.sockets.on('connection', function(socket){
   socket.on('player-shoots', function(player){
     if(player=="trump"){
       io.to(socket.room).emit('trump-shoot');
-    }
-    else if(player=="clinton"){
+    }else if(player=="clinton"){
       io.to(socket.room).emit('clinton-shoot');
+    }else if(player=="bill"){
+      io.to(socket.room).emit('bill-shoot');
     }
   });
-  socket.on('shot', function(bullet_pos,sprite_pos,shooter){
-    if(bullet_pos > sprite_pos && bullet_pos < (sprite_pos+100)){
-      if(shooter=="trump"){
-        io.to(socket.room).emit('clinton-hit');
-      }else if(shooter=="clinton"){
+  socket.on('shot', function(bullet_pos,sprite_pos,opponent){
+    if(bullet_pos > (sprite_pos-7) && bullet_pos < (sprite_pos+100)){
+      if(opponent=="trump"){
         io.to(socket.room).emit('trump-hit');
+      }else if(opponent=="clinton"){
+        io.to(socket.room).emit('clinton-hit');
+      }else if(opponent=="bill"){
+        io.to(socket.room).emit('bill-hit');
       }
     }
   });
@@ -92,6 +95,12 @@ io.sockets.on('connection', function(socket){
   socket.on('powerup-clinton',function(){
     if(socket.powerup==true){
       io.to(socket.room).emit('email');
+      socket.powerup = false;
+    }
+  });
+  socket.on('powerup-bill',function(){
+    if(socket.powerup==true){
+      io.to(socket.room).emit('impeach');
       socket.powerup = false;
     }
   });

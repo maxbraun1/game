@@ -135,12 +135,19 @@
 #mana_div-clinton{
   background-image: url("/assets/clinton.png");
 }
+#mana_div-bill{
+  background-image: url("/assets/bill.png");
+}
 #trump{
   background-image: url("/assets/trump_fade.png");
   display: none;
 }
 #clinton{
   background-image: url("/assets/clinton_fade.png");
+  display:none;
+}
+#bill{
+  background-image: url("/assets/bill_fade.png");
   display:none;
 }
 .trump-bullet{
@@ -150,6 +157,12 @@
   height:7px;
 }
 .clinton-bullet{
+  position:absolute;
+  color:white;
+  width:15px;
+  height:7px;
+}
+.bill-bullet{
   position:absolute;
   color:white;
   width:15px;
@@ -327,6 +340,12 @@
 }
 #clinton-powerup{
   background-image: url("/assets/delete.jpg");
+  background-position: center;;
+  background-size: cover;
+  display:none;
+}
+#bill-powerup{
+  background-image: url("/assets/impeachment.jpg");
   background-position: center;;
   background-size: cover;
   display:none;

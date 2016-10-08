@@ -1,6 +1,6 @@
 // Set socket
 //var socket = io.connect("http://localhost:3000"); //local
-var socket = io.connect("http://159.203.151.179:80"); //Main
+//var socket = io.connect("http://159.203.151.179:80"); //Main
 var socket = io.connect("http://159.203.164.204:80");//Test
 
 // Setup variables
@@ -11,6 +11,7 @@ var power;
 var player = null;
 var wall = false;
 var email = false;
+var impeach = false;
 var warmup = 100;
 var ready;
 var once = true;
@@ -25,7 +26,7 @@ var opp_side;
 
 $("#chat").hide();
 
-$(side).append("<div class='sprite' id='clinton'><div id='mana_div-clinton' class='mana_div'></div></div>")
+$(side).append("<div class='sprite' id='bill'><div id='mana_div-bill' class='mana_div'></div></div>")
 
 // Game Notifications
 
@@ -98,4 +99,18 @@ $("#clinton-choice").click(function(){
   $("#player-select").hide();
   $("#opener").hide();
   init_clinton(username,room,new_lobby);
+});
+
+$("#bill-choice").click(function(){
+  username = $("#username").val();
+  room = $("#lobby-id").val();
+  if(create==false){
+    socket.emit('join-room',room,"bill",username);
+  }
+  $("title").html("TvC Room: "+room);
+  $("#menu-room-id").html(room);
+  $(".darken").hide();
+  $("#player-select").hide();
+  $("#opener").hide();
+  init_bill(username,room,new_lobby);
 });

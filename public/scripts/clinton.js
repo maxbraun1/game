@@ -49,7 +49,7 @@ function clinton_shoot(player){
   $("#cbullet").css('top', parseInt($("#clinton").css('top'))+45);
   $("#cbullet").animate(bullet_travel, 500, "linear", function(){
     if(player=="clinton"){
-      socket.emit('shot',parseInt($("#cbullet").css('top')),parseInt($(opp_sprite).css('top')),player);
+      socket.emit('shot',parseInt($("#cbullet").css('top')),parseInt($(opp_sprite).css('top')),opp);
     }
     $("#cbullet").remove();
   });
@@ -79,7 +79,7 @@ function clinton_shoot_wall(player){
     }
     $("#cbullet").animate(bullet_travel, 500, "linear", function(){
       if(player=="clinton"){
-        socket.emit('shot',parseInt($("#cbullet").css('top')),parseInt($(opp_sprite).css('top')),player);
+        socket.emit('shot',parseInt($("#cbullet").css('top')),parseInt($(opp_sprite).css('top')),opp);
       }
       $("#cbullet").remove();
     });

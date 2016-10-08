@@ -23,6 +23,8 @@ function show_options(player){
     $("#trump-choice").addClass("disabled");
   }else if(player=="clinton"){
     $("#clinton-choice").addClass("disabled");
+  }else if(player=="bill"){
+    $("#bill-choice").addClass("disabled");
   }
   $(".darken").fadeIn();
   $("#player-select").fadeIn();

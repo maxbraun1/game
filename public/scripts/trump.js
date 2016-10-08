@@ -49,7 +49,7 @@ function trump_shoot(player){
   $("#tbullet").css('top', parseInt($("#trump").css('top'))+45);
   $("#tbullet").animate(bullet_travel, 500, "linear", function(){
     if(player=="trump"){
-      socket.emit('shot',parseInt($("#tbullet").css('top')),parseInt($(opp_sprite).css('top')),player);
+      socket.emit('shot',parseInt($("#tbullet").css('top')),parseInt($(opp_sprite).css('top')),opp);
     }
     $("#tbullet").remove();
   });
@@ -66,7 +66,7 @@ function trump_shoot_email(player){
   $("#tbullet").remove();
   $("#canvas").append("<div id='tbullet' class='trump-bullet "+bullet_side+"-bullet email bullet'></div>");
   $("#tbullet").css('top', parseInt($("#trump").css('top'))+45);
-  $("#tbullet").animate(bullet_travel, 250, "linear", function(){
+  $("#tbullet").animate(bullet_travel, 500, "linear", function(){
     $(".email").css("background-image","url('/assets/x.png')");
     setTimeout(function() {
       $("#tbullet").remove();
