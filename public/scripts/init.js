@@ -1,7 +1,7 @@
 // Set socket
 //var socket = io.connect("http://localhost:3000"); //local
-//var socket = io.connect("http://159.203.151.179:80"); //Main
-var socket = io.connect("http://159.203.164.204:3000");//Test
+var socket = io.connect("http://159.203.151.179:80"); //Main
+//var socket = io.connect("http://159.203.164.204:3000");//Test
 
 // Setup variables
 var room;
