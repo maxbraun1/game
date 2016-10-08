@@ -2,6 +2,7 @@
   <head>
     <title>Trump VS Clinton</title>
     <link href="/assets/pnotify.custom.min.css" media="all" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
     <link rel="stylesheet" type="text/css" href="/style.css">
   </head>
   <body>
@@ -11,11 +12,11 @@
     <h3 id="show-id">Room ID:   <span style="color:red" id="menu-room-id"></span></h3>
   </div>
   <div id="canvas">
-    <div class="side" id="side-clinton">
-      <div class="sprite" id="clinton"><div id="mana_div-clinton" class="mana_div"></div></div>
+    <div class="side" id="side1">
+
     </div>
-    <div class="side" id="side-trump">
-      <div class="sprite" id="trump"><div id="mana_div-trump" class="mana_div"></div></div>
+    <div class="side" id="side2">
+
     </div>
     <div id="wall"></div>
     <div id="email"></div>
@@ -45,26 +46,16 @@
   </div>
   <div id="opener">
     <h3 id="by">Made by Max Braun</h3>
+    <h1 id="title"><span style="color:blue">Trump</span> vs. <span style="color:red">Clinton</span></h1>
     <div id="container">
-      <h1 id="title"><span style="color:blue">Trump</span> vs. <span style="color:red">Clinton</span></h1>
-      <h1 id="choose">Choose a side</h1>
-      <div class="choice" id="choose-trump"><img src="/assets/trump.png"></div>
-      <div class="choice" id="choose-clinton"><img src="/assets/clinton.png"></div>
+      <h1>Enter your lobby ID</h1>
+      <input id="username" type="text" placeholder="Username">
+      <input id="lobby-id" type="text" placeholder="ex. (1234)">
       <div class="option disabled" id="create">Create a Game</div>
-      <div class="option" id="join">Join a Game</div>
+      <div class="option disabled" id="join">Join a Game</div>
     </div>
     <div id='count'>
       <h3>Players online: <span id="count-span"></span></h3>
-    </div>
-    <div id="chat-tab"><h3>Chat</h3><img id="chat-icon" src="/assets/chat.png"/></div>
-    <div id="chat">
-      <div id="chat-container">
-        <form id="chat-form">
-          <textarea id="message-area" placeholder="Press enter to send."></textarea>
-        </form>
-        <div id="chat-msgs"></div>
-      </div>
-      <div id="close-chat">Close</div>
     </div>
   </div>
   <div id="create-game">
@@ -96,18 +87,21 @@
     <h3>You Lost...</h3>
     <button class="ok">Home</button>
   </div>
+  <div class="alert" id="player-select">
+    <h1>Choose a player</h1>
+    <div class="player-choice" id="trump-choice"><img src="assets/trump.png"/></div>
+    <div class="player-choice" id="clinton-choice"><img src="assets/clinton.png"/></div>
+    <div class="cancel" id="player-select-cancel"/>Cancle</div>
+  </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script type = "text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
-  <script>
-  var player=null;
-  var wall=false;
-  var email=false;
-  var warmup=100;
-  var ready;
-  var once = true;
-  </script>
-  <script type="text/javascript" src="/assets/pnotify.custom.min.js"></script>
-  <script src="../assets/socket.io.js"></script>
-  <script src="/assets/script.js"></script>
-  <script src="/assets/functions.js"></script>
+  <script type="text/javascript" src="/scripts/pnotify.custom.min.js"></script>
+  <script src="/scripts/socket.io.js"></script>
+  <script src="/scripts/init.js"></script>
+  <script src="/scripts/main.js"></script>
+  <script src="/scripts/script.js"></script>
+  <script src="/scripts/functions.js"></script>
+  <!-- Player scripts -->
+  <script src="/scripts/trump.js"></script>
+  <script src="/scripts/clinton.js"></script>
 </html>

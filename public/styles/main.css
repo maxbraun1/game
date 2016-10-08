@@ -1,0 +1,72 @@
+@import 'https://fonts.googleapis.com/css?family=Lobster|Open+Sans:300,400';
+html{
+  background-color: #404040;
+}
+*{
+  padding:0;
+  margin:0;
+  font-family: 'Open Sans', sans-serif;
+}
+h1,h2,h3,h4,h5,h6,p{
+  padding:5px 0px;
+}
+span{
+  font-family: 'Lobster', cursive;
+}
+input[type="text"]{
+  width:100%;
+  border:none;
+  outline:none;
+  padding:15px;
+  background-color: white;
+  border-radius:0;
+  margin:7px 0px;
+  font-size: 16px;
+  color:black;
+}
+.disabled{
+  pointer-events: none;
+  opacity: 0.3;
+}
+.alert{
+  display:none;
+  text-align: center;
+  position: absolute;
+  top:100px;
+  left:0;
+  right:0;
+  margin:0 auto;
+  width:400px;
+  background-color: #262626;
+  padding:30px;
+  z-index: 101;
+  color:white;
+}
+.alert h1{
+  font-family: 'Lobster', cursive;
+  font-size:40px;
+  padding-bottom:30px;
+}
+.cancel{
+  background-color:red;
+  padding:10px 0px;
+  border: none;
+  border-radius:0;
+  cursor: pointer;
+  margin-top:20px;
+}
+.cancel:hover{
+  background-color: darkred;
+}
+.left{
+  left:10px;
+}
+.right{
+  right:10px;
+}
+.left-bullet{
+  left:45px;
+}
+.right-bullet{
+  right:60px;
+}

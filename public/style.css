@@ -1,16 +1,26 @@
-@import 'https://fonts.googleapis.com/css?family=Lobster|Open+Sans:300,400';
-html{
-  /*background-image: url("/assets/backdrop.png");*/
-  background-color: #404040;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 100;
-  padding:0;
-  margin:0;
-  color:white;
+#player-select{
+  overflow-x: scroll;
+  text-align: center;
 }
-*{
-  padding:0;
-  margin:0;
+.player-choice{
+  padding:10px;
+  background-color: black;
+  width:150px;
+  height:150px;
+  margin:10px 5px;
+  background-color: #191919;
+  display: inline-block;
+}
+.player-choice:hover{
+  background-color: #006bb3;
+  cursor: pointer;
+  transition: background-color 500ms linear;
+}
+.player-choice img{
+  width:100px;
+  height:100px;
+  padding:25px;
+
 }
 #by{
   position:absolute;
@@ -52,6 +62,7 @@ html{
   left:0;
   right:0;
   height:190px;
+  color:white;
 }
 #info #container{
   width:1000px;
@@ -94,11 +105,11 @@ html{
   height:500px;
   position:relative;
 }
-#side-clinton{
+#side1{
   background-image:url('/assets/stars.png');
   float:left;
 }
-#side-trump{
+#side2{
   background-image:url('/assets/stripes.png');
   float:right;
 }
@@ -125,26 +136,24 @@ html{
   background-image: url("/assets/clinton.png");
 }
 #trump{
-  right:10px;
   background-image: url("/assets/trump_fade.png");
+  display: none;
 }
 #clinton{
-  left:10px;
   background-image: url("/assets/clinton_fade.png");
+  display:none;
 }
 .trump-bullet{
   position:absolute;
   color:white;
   width:15px;
   height:7px;
-  right:150px;
 }
 .clinton-bullet{
   position:absolute;
   color:white;
   width:15px;
   height:7px;
-  left:150px;
 }
 .email{
   width:30px !important;
@@ -173,8 +182,9 @@ html{
   z-index: 100;
 }
 #container{
-  width:800px;
+  width:500px;
   margin:0 auto;
+  margin-top: 100px;
 }
 #title{
   font-size:80px;
@@ -182,39 +192,18 @@ html{
   font-family: 'Lobster', cursive;
   padding:30px 0;
 }
-#choose{
-  font-family: 'Open Sans', sans-serif;
-}
-.choice{
-  width:40%;
-  padding:2.5%;
-  margin:2.5%;
-  height:200px;
-  background-color: #404040;
-  cursor: pointer;
-}
-.choice:hover{
-  background-color: #006bb3;
-  transition: background-color 500ms linear;
-}
-#choose-trump{
-  float:left;
-}
-#choose-trump img{
-  height:200px;
-}
-#choose-clinton{
-  float:left;
-}
-#choose-clinton img{
-  height:200px;
+#title span{
+  font-size:80px;
+  font-weight: 600;
+  font-family: 'Lobster', cursive;
+  padding:30px 0;
 }
 .option{
-  width:42%;
-  padding:2%;
-  margin:2%;
+  width:205px;
+  padding:15px;
+  margin:5px;
   background-color: #404040;
-  font-size:40px;
+  font-size:16px;
   font-family: 'Open Sans', sans-serif;
   text-align: center;
   cursor: pointer;
@@ -278,31 +267,8 @@ html{
   right:0;
   z-index:100;
 }
-.disabled{
-  pointer-events: none;
-  opacity: 0.3;
-}
-.alert{
-  display:none;
-  text-align: center;
-  position: absolute;
-  top:100px;
-  left:0;
-  right:0;
-  margin:0 auto;
-  width:400px;
-  height:300px;
-  background-color: #262626;
-  padding:50px;
-  z-index: 101;
-}
 #player{
   text-transform: uppercase;
-}
-.alert h1{
-  font-family: 'Lobster', cursive;
-  font-size: 50px;
-  padding-bottom:50px;
 }
 #create-cancel, #join-cancel{
   padding-top:20px;

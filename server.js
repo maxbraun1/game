@@ -5,6 +5,7 @@ var io = require('socket.io').listen(server);
 
 users = [];
 connections = [];
+rooms = [];
 
 server.listen(80);
 console.log("Server running...");
@@ -15,12 +16,13 @@ app.use(express.static(__dirname + '/public'));
 
 io.sockets.on('connection', function(socket){
   connections.push(socket);
-  socket.emit('count',connections.length);
+  io.sockets.emit('count',connections.length);
   var d = new Date();
   console.log(connections.length+' connections');
 
   //Creating and joining rooms
-  socket.on('new-room', function(room, player, username){
+  socket.on('new-room', function(room,player,username){
+    rooms.push(room);
     socket.join(room);
     socket.room = room;
     socket.player = player;
@@ -29,20 +31,14 @@ io.sockets.on('connection', function(socket){
     socket.powerup = true;
     console.log("["+username+"] created room "+room+" as player "+player);
   });
-  socket.on('join-room', function(room,username){
-    io.to(room).emit('player-joined');
-    socket.join(room);
+  socket.on('join-room', function(room,player,username){
     socket.room = room;
+    socket.player = player;
     socket.username = username;
     socket.health = 500;
     socket.powerup = true;
-  });
-  socket.on('current-player',function(player){
-    io.to(socket.room).emit('existing-player',player);
-  });
-  socket.on('new-player-info',function(player,username,room){
-    socket.player=player;
-    io.to(socket.room).emit('new-info', player,username,room);
+    io.to(socket.room).emit('player-joined',room,player,username);
+    console.log("["+username+"] joined room "+room+" as player "+player);
   });
   socket.on('ready',function(){
     io.to(socket.room).emit('game_ready');
@@ -100,18 +96,25 @@ io.sockets.on('connection', function(socket){
     }
   });
 
-  //message
-  socket.on('message',function(message){
-    socket.emit('new-message',message);
+  //Check lobby
+  socket.on('check_lobby',function(room){
+    io.to(room).emit('player-check', socket.id);
+    socket.join(room);
+  });
+  socket.on('existing-player',function(player,socketID){
+    io.sockets.connected[socketID].emit('join',player);
+  });
+
+  socket.on('game-ready',function(){
+    io.to(socket.room).emit('ready');
   });
 
   //Disconect
   socket.on('disconnect', function(data){
     io.to(socket.room).emit('player-left', socket.username);
     socket.leave(socket.room);
-    socket.emit('count',connections.length);
-    console.log("["+socket.username+"] disconnected from room "+socket.room);
     connections.splice(connections.indexOf(socket), 1);
+    io.sockets.emit('count',connections.length);
     console.log(connections.length+" connections");
   });
 });
