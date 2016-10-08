@@ -87,7 +87,7 @@ function bill_shoot_wall(player){
   if(parseInt($("#bbullet").css('top'))>90 && parseInt($("#bbullet").css('top'))<=300){
     //If bullet is in range of wall
     $("#bbullet").animate(bullet_travel, 250, "linear", function(){
-      $("#bbullet").remove();
+      $(this).remove();
     });
   }else{
     if(player=="bill"){
