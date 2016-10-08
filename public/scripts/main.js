@@ -140,7 +140,7 @@ socket.on('bill-shoot', function(){
         power=100;
       });
     }
-  }if(email==true){
+  }else if(email==true){
     bill_shoot_email(player);
     if(player == "bill"){
       power = 0;
