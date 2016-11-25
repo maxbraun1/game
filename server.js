@@ -7,7 +7,7 @@ users = [];
 connections = [];
 rooms = [];
 
-server.listen(80);
+server.listen(3000);
 console.log("Server running...");
 
 app.use(express.static(__dirname + '/public'));
